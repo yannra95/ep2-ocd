@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,18 +9,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
 
 public class Interface {
 
 	private JFrame frame;
-	private JTextField textField;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private JLabel lblComando;
 	private String instrucao;
 	private String op1;
 	private String op2;
-	DefaultTableModel model;
+	private DefaultTableModel model;
+	private ArrayList<String> memoria = new ArrayList<String>();
+	
 
 	/**
 	 * Launch the application.
@@ -29,6 +32,7 @@ public class Interface {
 			public void run() {
 				try {
 					Interface window = new Interface();
+					window.frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,28 +74,13 @@ public class Interface {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 572, 300);
+		frame.setAlwaysOnTop(true);
+		frame.setBounds(100, 100, 936, 514);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER)
-	            {
-	                getComando(textField.getText());
-	                System.out.println(instrucao + " " + op1 + " " + op2);
-	                textField.setText("");
-	            }
-			}
-		});
-		textField.setBounds(71, 11, 475, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 42, 556, 219);
+		scrollPane.setBounds(354, 11, 556, 453);
 		frame.getContentPane().add(scrollPane);
 
 		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx", "dx", "==0", "overf", "null" };
@@ -102,8 +91,12 @@ public class Interface {
 		table.setEnabled(false);
 		scrollPane.setViewportView(table);
 		
-		lblComando = new JLabel("Comando: ");
-		lblComando.setBounds(10, -3, 200, 49);
-		frame.getContentPane().add(lblComando);
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(10, 11, 334, 422);
+		frame.getContentPane().add(textArea);
+		
+		JButton btnExecutar = new JButton("Executar");
+		btnExecutar.setBounds(20, 441, 89, 23);
+		frame.getContentPane().add(btnExecutar);
 	}
 }
