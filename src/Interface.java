@@ -19,6 +19,7 @@ public class Interface {
 	private String instrucao;
 	private String op1;
 	private String op2;
+	DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -48,12 +49,20 @@ public class Interface {
 	 * Posição 1 do vetor: 1º operador
 	 * Posição 2 do vetor: 2º operador
 	 * @param comando
-	 * @return 
 	 */
 	public void getComando(String comando){
 		instrucao = comando.split(" ")[0];
 		op1 = comando.split(" ")[1].split(",")[0];
 		op2 = comando.split(" ")[1].split(",")[1];
+	}
+	
+	/**
+	 * Adiciona uma nova linha na 1ª posição da tabela
+	 * @param data
+	 */
+	public void addRow(Object[] data){
+		model.insertRow(0, data);		
+		table = new JTable(model);
 	}
 
 	/**
@@ -67,15 +76,6 @@ public class Interface {
 
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
-	            {
-	                getComando(textField.getText());
-	                System.out.println(instrucao + " " + op1 + " " + op2);
-	                textField.setText("");
-	            }
-			}
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -97,7 +97,7 @@ public class Interface {
 		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx", "dx", "==0", "overf", "null" };
 		Object[][] data = {{}};
 
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		model = new DefaultTableModel(data, columnNames);
 		table = new JTable(model);
 		table.setEnabled(false);
 		scrollPane.setViewportView(table);
@@ -105,10 +105,5 @@ public class Interface {
 		lblComando = new JLabel("Comando: ");
 		lblComando.setBounds(10, -3, 200, 49);
 		frame.getContentPane().add(lblComando);
-//		
-//		Object[] data2 = {"e","i","","","o","","",""};
-//		model.insertRow(0, data2);		
-//		
-//		table = new JTable(model);
 	}
 }
