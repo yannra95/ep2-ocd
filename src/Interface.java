@@ -17,7 +17,6 @@ public class Interface {
 	private DefaultTableModel model;
 	private ArrayList<String> memoria = new ArrayList<String>();
 	private IR ir = new IR();
-	
 
 	/**
 	 * Launch the application.
@@ -27,7 +26,7 @@ public class Interface {
 			public void run() {
 				try {
 					Interface window = new Interface();
-					//window.frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+					// window.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,35 +41,68 @@ public class Interface {
 	public Interface() {
 		initialize();
 	}
-	
+
+	/**
+	 * Devolve o OPCODE para dada instrução, para ser guardado na memoria
+	 * 
+	 * @return opCode
+	 */
+	public String opCode(String instrucao) {
+		String opCode;
+		switch (instrucao) {
+		case "mov":
+			opCode = "0000";
+			break;
+		case "add":
+			opCode = "0001";
+			break;
+		case "sub":
+			opCode = "0010";
+			break;
+		case "mul":
+			opCode = "0011";
+			break;
+		case "div":
+			opCode = "0100";
+			break;
+
+		default: opCode = "";
+			break;
+		}
+
+		return opCode;
+	}
+
 	/**
 	 * IR <== MBR
+	 * 
 	 * @param comando
 	 */
-	public void setIR(String comando){
+	public void setIR(String comando) {
 		int i = 0;
-		while(i < comando.length()){
-			
+		while (i < comando.length()) {
+
 			ir.setInstrucao(comando.split(" ")[0]);
-			
-			//Se tiver uma vírgula, ou seja, se houverem 2 operadores
-			if(comando.indexOf(',') > 0){
+
+			// Se tiver uma vírgula, ou seja, se houverem 2 operadores
+			if (comando.indexOf(',') > 0) {
 				ir.setOp1(comando.split(" ")[1].split(",")[0]);
 				ir.setOp2(comando.split(" ")[1].split(",")[1]);
-			}else{
+			} else {
 				ir.setOp1(comando.split(" ")[1]);
 				ir.setOp2(null);
 			}
 			i++;
 		}
 	}
-	
+
 	/**
 	 * Adiciona uma nova linha na 1ª posição da tabela
+	 * 
 	 * @param data
 	 */
-	public void addRow(Object[] data){
-		model.insertRow(0, data);		
+	public void addRow(Object[] data) {
+		model.insertRow(0, data);
 		table = new JTable(model);
 	}
 
@@ -88,28 +120,29 @@ public class Interface {
 		scrollPane.setBounds(354, 11, 556, 453);
 		frame.getContentPane().add(scrollPane);
 
-		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx", "dx", "==0", "overf", "null" };
-		Object[][] data = {{}};
+		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
+				"dx", "==0", "overf", "null" };
+		Object[][] data = { {} };
 
 		model = new DefaultTableModel(data, columnNames);
 		table = new JTable(model);
 		table.setEnabled(false);
 		scrollPane.setViewportView(table);
-		
+
 		JTextArea textArea = new JTextArea();
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_F9){
+				if (e.getKeyCode() == KeyEvent.VK_F9) {
 					String linhas[] = textArea.getText().split("\r\n|\r|\n");
-					
+
 					for (int i = 0; i < linhas.length; i++) {
 						memoria.add(linhas[i]);
 					}
 					System.out.println(memoria);
-					
+
 					setIR(memoria.get(1));
-					
+
 					System.out.println(ir.getInstrucao());
 				}
 			}
