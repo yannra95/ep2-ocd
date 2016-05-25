@@ -15,7 +15,7 @@ public class Interface {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private DefaultTableModel model;
-	private ArrayList<String> memoria = new ArrayList<String>();
+	private ArrayList<ComponenteMemoria> memoria = new ArrayList<ComponenteMemoria>();
 	private IR ir = new IR();
 
 	/**
@@ -40,6 +40,7 @@ public class Interface {
 	 */
 	public Interface() {
 		initialize();
+		Processador processador = new Processador();
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class Interface {
 	 * 
 	 * @return opCode
 	 */
-	public String opCode(String instrucao) {
+	public String getOpCode(String instrucao) {
 		String opCode;
 		switch (instrucao) {
 		case "mov":
@@ -65,8 +66,33 @@ public class Interface {
 		case "div":
 			opCode = "0100";
 			break;
+		case "ax":
+			opCode = "010101";
+			break;
+		case "bx":
+			opCode = "030110";
+			break;
+		case "cx":
+			opCode = "050111";
+			break;
+		case "dx":
+			opCode = "071000";
+			break;
+		case "MAR":
+			opCode = "091001";
+			break;
+		case "MBR":
+			opCode = "101010";
+			break;
+		case "IR":
+			opCode = "111011";
+			break;
+		case "PC":
+			opCode = "121100";
+			break;
 
-		default: opCode = "";
+		default:
+			opCode = "";
 			break;
 		}
 
@@ -74,26 +100,31 @@ public class Interface {
 	}
 
 	/**
-	 * IR <== MBR
+	 * Retorna em um vetor as instrução e os operadores separadamentes
+	 * resultado[0]: instrução; resultado[1]: op1; resultado[2]: op2
 	 * 
 	 * @param comando
+	 * @return
 	 */
-	public void setIR(String comando) {
+	public String[] getInsOp1Op2(String comando) {
+		String[] resultado = new String[3];
 		int i = 0;
 		while (i < comando.length()) {
 
-			ir.setInstrucao(comando.split(" ")[0]);
+			resultado[0] = comando.split(" ")[0];
 
 			// Se tiver uma vírgula, ou seja, se houverem 2 operadores
 			if (comando.indexOf(',') > 0) {
-				ir.setOp1(comando.split(" ")[1].split(",")[0]);
-				ir.setOp2(comando.split(" ")[1].split(",")[1]);
+				resultado[1] = comando.split(" ")[1].split(",")[0];
+				resultado[2] = comando.split(" ")[1].split(",")[1];
 			} else {
-				ir.setOp1(comando.split(" ")[1]);
-				ir.setOp2(null);
+				resultado[1] = comando.split(" ")[1];
+				resultado[2] = null;
 			}
 			i++;
 		}
+
+		return resultado;
 	}
 
 	/**
@@ -112,12 +143,12 @@ public class Interface {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setAlwaysOnTop(true);
-		frame.setBounds(100, 100, 936, 514);
+		frame.setBounds(100, 100, 936, 631);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(354, 11, 556, 453);
+		scrollPane.setBounds(354, 11, 556, 269);
 		frame.getContentPane().add(scrollPane);
 
 		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
@@ -134,20 +165,35 @@ public class Interface {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_F9) {
-					String linhas[] = textArea.getText().split("\r\n|\r|\n");
 
-					for (int i = 0; i < linhas.length; i++) {
-						memoria.add(linhas[i]);
+					// Separa o bloco de linhas de código em linhas separadas em
+					// cada posição do vetor
+					String[] linhasComando = textArea.getText().split(
+							"\r\n|\r|\n");
+					String[] componentesLinha;
+
+					// Cada linha é adicionada à memória
+					int endereco = 0;
+					String conteudo = "";
+					for (int i = 0; i < linhasComando.length; i++) {
+						componentesLinha = getInsOp1Op2(linhasComando[i]);
+						conteudo = getOpCode(componentesLinha[0]).concat(
+								getOpCode(componentesLinha[1]).concat(
+										getOpCode(componentesLinha[2])));
+						memoria.add(new ComponenteMemoria(endereco, conteudo));
+						endereco++;
 					}
-					System.out.println(memoria);
 
-					setIR(memoria.get(1));
-
-					System.out.println(ir.getInstrucao());
+					for (int j = 0; j < memoria.size(); j++) {
+						System.out.println("endereço: "
+								+ memoria.get(j).getEndereco()
+								+ "\t conteudo: "
+								+ memoria.get(j).getConteudo());
+					}
 				}
 			}
 		});
-		textArea.setBounds(10, 11, 334, 453);
+		textArea.setBounds(10, 11, 334, 269);
 		frame.getContentPane().add(textArea);
 	}
 }
