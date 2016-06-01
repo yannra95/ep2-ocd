@@ -7,20 +7,28 @@ public class Memoria {
 		this.memoria = new ArrayList<ComponenteMemoria>();
 	}
 	
+	public void printMemoria() {
+		for (int j = 0; j < memoria.size(); j++) {
+			System.out.println("endereço: " + memoria.get(j).getEndereco()
+					+ "\t conteudo: " + memoria.get(j).getConteudo());
+		}
+	}
+	
+	
 	public void add(int endereco, String conteudo){
 		
 		memoria.add(new ComponenteMemoria(endereco, conteudo));
 	}
 	
-//	public int get(int endereco){
-//		
-//		int conteudo = 0;
-//		for (int i = 0; i < memoria.size(); i++) {
-//			if(memoria.get(i).getConteudo() == endereco)
-//				conteudo = memoria.get(i).getConteudo();
-//			else conteudo = -1;
-//		}
-//		return conteudo;
-//	}
+	public String get(int endereco){
+		
+		String conteudo = null;
+		for (int i = 0; i < memoria.size(); i++) {
+			if(memoria.get(i).getEndereco() == endereco )
+				conteudo = memoria.get(i).getConteudo();
+			else conteudo = null;
+		}
+		return conteudo;
+	}
 
 }

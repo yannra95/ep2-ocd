@@ -1,0 +1,13 @@
+	entrada	saida
+PC	0	1
+MAR	2	null
+MBR	3	4
+AX	5	6
+BX	7	8
+CX	9	10
+DX	11	12
+IR	13	14
+X	15	16
+ULA	17	18
+AC	19	20
+MEMO	21	22
