@@ -16,7 +16,7 @@ public class Memoria {
 	
 	
 	public void add(int endereco, String conteudo){
-		
+		// TODO Mudar tipo da memoria para HashMap
 		memoria.add(new ComponenteMemoria(endereco, conteudo));
 	}
 	

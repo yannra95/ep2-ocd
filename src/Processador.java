@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Processador {
 	private IR ir;
 	private Registrador pc;
@@ -9,7 +12,7 @@ public class Processador {
 	private Registrador dx;
 	
 	private boolean[] barramentoDados;
-	private int[] sinal;
+	private ArrayList<Integer> sinal;
 	
 	public Processador() {
 		this.pc = new Registrador("0",0 , 1);
@@ -20,18 +23,13 @@ public class Processador {
 		//Vetor de boolan que representa as portas e seus estados (aberta ou fechada)
 		this.barramentoDados = new boolean[23];
 		//Vetor de int que representa quais portas um dado sinal pede que sejam abertas
-		this.sinal = new int[23];
+		this.sinal = new ArrayList<Integer>();
 	}
 	
 	public void abrePortas(){
 		
-		for (int i = 0; i < barramentoDados.length; i++) {
-			for (int j = 0; j < sinal.length; j++) {
-				
-				//Se o sinal manda que a porta i do barramento seja aberta
-				if (i == j)
-					barramentoDados[i] = true;
-			}
+		for(Integer i : sinal){
+			barramentoDados[i] = true;
 		}
 	}
 	
@@ -51,9 +49,9 @@ public class Processador {
 	public void cicloBuscaInstrucao(){
 		
 		//Mar <== PC
-		sinal[0] = 1; sinal[1] = 2;
+//		sinal[0] = 1; sinal[1] = 2; sinal = {1,2}getClass()
 		abrePortas();
-		if(barramentoDados[])
+//		if(barramentoDados[])
 		
 	}
 	

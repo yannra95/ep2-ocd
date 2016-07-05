@@ -14,8 +14,8 @@ public class Assembler {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private DefaultTableModel model;
-	private Memoria memoria = new Memoria();
-	private IR ir = new IR();
+	private Memoria memoria;
+	private Processador processador;
 
 	/**
 	 * Launch the application.
@@ -38,8 +38,9 @@ public class Assembler {
 	 * Create the application.
 	 */
 	public Assembler() {
+		processador = new Processador();
+		memoria = new Memoria();
 		initialize();
-		Processador processador = new Processador();
 	}
 
 	/**
@@ -209,6 +210,8 @@ public class Assembler {
 					//Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
 					memoria.printMemoria();
+					//processador.startProcess()
+				
 				}
 			}
 		});
