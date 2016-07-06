@@ -8,6 +8,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import Memoria.Memoria;
+
 public class Assembler {
 
 	private JFrame frame;
@@ -52,55 +54,58 @@ public class Assembler {
 		String opCode;
 		switch (instrucao) {
 		case "mov":
-			opCode = "0000";
+			opCode = "0";
 			break;
 		case "add":
-			opCode = "0001";
+			opCode = "1";
 			break;
 		case "sub":
-			opCode = "0010";
+			opCode = "2";
 			break;
 		case "mul":
-			opCode = "0011";
+			opCode = "3";
 			break;
 		case "div":
-			opCode = "0100";
+			opCode = "4";
+		case "jmp":
+			opCode = "5";
 			break;
 		case "ax":
-			opCode = "010101";
+			opCode = "6";
+			break;
+		case "[ax]":
+			opCode = "0x6";
 			break;
 		case "bx":
-			opCode = "030110";
+			opCode = "0x7";
+		case "[bx]":
+			opCode = "0x7";
 			break;
 		case "cx":
-			opCode = "050111";
+			opCode = "8";
+		case "[cx]":
+			opCode = "0x8";
 			break;
 		case "dx":
-			opCode = "071000";
+			opCode = "9";
 			break;
-		case "MAR":
-			opCode = "091001";
-			break;
-		case "MBR":
-			opCode = "101010";
-			break;
-		case "IR":
-			opCode = "111011";
-			break;
-		case "PC":
-			opCode = "121100";
+		case "[dx]":
+			opCode = "x9";
 			break;
 
 		default:
 			opCode = "";
 			break;
 		}
+		
+		//Pra ver se dentro da string tem um inteiro
+//		matches(".*\\d+.*")
 
 		return opCode;
 	}
 
 	/**
-	 * Retorna em um vetor as instrução e os operadores separadamentes
+	 * Retorna em um vetor a instrução e os operadores separadamentes
 	 * resultado[0]: instrução; resultado[1]: op1; resultado[2]: op2
 	 * 
 	 * @param comando
@@ -123,7 +128,9 @@ public class Assembler {
 			}
 			i++;
 		}
-
+		
+		System.out.println("comando: "+resultado[0]+" "+resultado[1]+" "+resultado[2]);
+		
 		return resultado;
 	}
 
@@ -172,7 +179,7 @@ public class Assembler {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Inicializa os componentes do Frame
 	 */
 	private void initialize() {
 		frame = new JFrame();
