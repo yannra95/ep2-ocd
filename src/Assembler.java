@@ -173,7 +173,7 @@ public class Assembler {
 
 			componentesLinha = getInsOp1Op2(linhasComando[i]);
 
-			memoria.add(enderecoInicial+i, concatInstrucao(componentesLinha));
+			memoria.put(enderecoInicial+i, concatInstrucao(componentesLinha));
 		}
 	}
 
