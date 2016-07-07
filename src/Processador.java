@@ -26,18 +26,8 @@ public class Processador {
 		this.sinal = new ArrayList<Integer>();
 	}
 	
-	public void abrePortas(){
+	public void cicloInstrucao(){
 		
-		for(Integer i : sinal){
-			barramentoDados[i] = true;
-		}
-	}
-	
-	public void fechaTodasPortas(){
-		
-		for (int i = 0; i < barramentoDados.length; i++) {
-			barramentoDados[i] = false;
-		}
 	}
 	
 	/**
@@ -46,13 +36,4 @@ public class Processador {
 	 * MBR <== Memoria
 	 * IR <== MBR
 	 */
-	public void cicloBuscaInstrucao(){
-		
-		//Mar <== PC
-//		sinal[0] = 1; sinal[1] = 2; sinal = {1,2}getClass()
-		abrePortas();
-//		if(barramentoDados[])
-		
-	}
-	
 }
