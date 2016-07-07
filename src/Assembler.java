@@ -256,7 +256,11 @@ public class Assembler {
 					addLinhasMemoria(linhasComando, 0);
 					memoria.printMemoria();
 					// processador.startProcess()
-
+					
+					UC uc = new UC();
+					
+					String codInstrucao = memoria.get(0);
+					uc.separaInstrucao(codInstrucao);					
 				}
 			}
 		});
