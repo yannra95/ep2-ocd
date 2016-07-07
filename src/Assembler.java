@@ -48,23 +48,21 @@ public class Assembler {
 	public String completaZerosEsquerda(String s){
 		String retorno = "";
 		
-		System.out.println("Entrou no método!");
-		
 		int lim = TAM_BITS_OPERAND - s.length();
 		char[] aux = new char[TAM_BITS_OPERAND];
 		
 		for (int i = 0; i < lim; i++) {
-			aux[i] = 0;
+			aux[i] = '0';
 		}
 		
-		System.out.println("aux: "+lim);
+		System.out.println("tamanho aux: "+lim);
 		
-		for (int j = lim; j < s.length(); j++) {
-			aux[j] = s.charAt(j);
+		for (int k = 0; k < s.length(); k++) {
+			aux[lim+k] = s.charAt(k);
 		}
 		
-		retorno = aux.toString();
-		
+		retorno = String.valueOf(aux);
+		System.out.println("retorno: "+ retorno +"\t tamanho: "+ retorno.length());
 		return retorno;
 	}
 
@@ -132,7 +130,9 @@ public class Assembler {
 						.parseInt(instrucao.substring(1, 2)))));
 			} else {
 				aux = "00";
-				opCode = aux.concat(Integer.toBinaryString(Integer
+				opCode = aux.concat(completaZerosEsquerda(Integer.toBinaryString(Integer
+						.parseInt(instrucao))));
+				System.out.println("valor entrado: "+ Integer.toBinaryString(Integer
 						.parseInt(instrucao)));
 			}
 		}
