@@ -14,7 +14,7 @@ public class Memoria extends HashMap<Integer, String> {
 		while(it.hasNext()){
 			Map.Entry entrada = (Map.Entry) it.next();
 			System.out.println("endereço: " + entrada.getKey()
-					+ "\t conteudo: " + entrada.getValue());
+					+ "\t conteudo: " + entrada.getValue() + "\t tamanho: " + entrada.getValue().toString().length());
 		}
 	}
 }

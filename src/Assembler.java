@@ -16,6 +16,8 @@ public class Assembler {
 	private DefaultTableModel model;
 	private Memoria memoria;
 	private Processador processador;
+	
+	private final int TAM_BITS_OPERAND = 14;
 
 	/**
 	 * Launch the application.
@@ -45,22 +47,23 @@ public class Assembler {
 
 	public String completaZerosEsquerda(String s){
 		String retorno = "";
-		int lim = 13 - s.length();
-		char[] aux = new char[14];
 		
-		int j = 0;
-		for (int i = 0; i <= lim; i++) {
+		System.out.println("Entrou no método!");
+		
+		int lim = TAM_BITS_OPERAND - s.length();
+		char[] aux = new char[TAM_BITS_OPERAND];
+		
+		for (int i = 0; i < lim; i++) {
 			aux[i] = 0;
-			j++;
-		}
-		System.out.println("aux: "+lim);
-		for (int i = j; i < aux.length; i++) {
-			for (int k = 0; k < s.length(); k++) {
-				aux[i] = s.charAt(k);
-			}
 		}
 		
-		retorno = String.valueOf(aux);
+		System.out.println("aux: "+lim);
+		
+		for (int j = lim; j < s.length(); j++) {
+			aux[j] = s.charAt(j);
+		}
+		
+		retorno = aux.toString();
 		
 		return retorno;
 	}
@@ -218,7 +221,7 @@ public class Assembler {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setAlwaysOnTop(true);
+		frame.setAlwaysOnTop(false);
 		frame.setBounds(100, 100, 936, 631);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
