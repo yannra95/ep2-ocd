@@ -8,8 +8,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
-import Memoria.Memoria;
-
 public class Assembler {
 
 	private JFrame frame;
@@ -45,62 +43,99 @@ public class Assembler {
 		initialize();
 	}
 
+	public String completaZerosEsquerda(String s){
+		String retorno = "";
+		int lim = 13 - s.length();
+		char[] aux = new char[14];
+		
+		int j = 0;
+		for (int i = 0; i <= lim; i++) {
+			aux[i] = 0;
+			j++;
+		}
+		System.out.println("aux: "+lim);
+		for (int i = j; i < aux.length; i++) {
+			for (int k = 0; k < s.length(); k++) {
+				aux[i] = s.charAt(k);
+			}
+		}
+		
+		retorno = String.valueOf(aux);
+		
+		return retorno;
+	}
+
 	/**
 	 * Devolve o OPCODE para dada instrução, para ser guardado na memoria
 	 * 
 	 * @return opCode
 	 */
 	public String getOpCode(String instrucao) {
-		String opCode;
+		String opCode = "";
+		String aux;
 		switch (instrucao) {
-		case "mov":
-			opCode = "0";
-			break;
-		case "add":
-			opCode = "1";
-			break;
-		case "sub":
-			opCode = "2";
-			break;
-		case "mul":
-			opCode = "3";
-			break;
-		case "div":
-			opCode = "4";
-		case "jmp":
-			opCode = "5";
-			break;
 		case "ax":
-			opCode = "6";
+			opCode = "10000000000000";
 			break;
 		case "[ax]":
-			opCode = "0x6";
+			opCode = "11000000000000";
 			break;
 		case "bx":
-			opCode = "0x7";
+			opCode = "10000000000001";
+			break;
 		case "[bx]":
-			opCode = "0x7";
+			opCode = "11000000000001";
 			break;
 		case "cx":
-			opCode = "8";
+			opCode = "10000000000010";
+			break;
 		case "[cx]":
-			opCode = "0x8";
+			opCode = "11000000000010";
 			break;
 		case "dx":
-			opCode = "9";
+			opCode = "10000000000011";
 			break;
 		case "[dx]":
-			opCode = "x9";
+			opCode = "11000000000011";
+			break;
+		case "mov":
+			opCode = "0100";
+			break;
+		case "add":
+			opCode = "0101";
+			break;
+		case "sub":
+			opCode = "0110";
+			break;
+		case "mul":
+			opCode = "0111";
+			break;
+		case "div":
+			opCode = "1000";
+		case "jmp":
+			opCode = "1001";
 			break;
 
 		default:
-			opCode = "";
 			break;
 		}
-		
-		//Pra ver se dentro da string tem um inteiro
-//		matches(".*\\d+.*")
 
+		// Se tiver um numero na instrução
+		if (instrucao.matches(".*\\d+.*")) {
+			// Se for uma indireção
+			if (instrucao.contains("[")) {
+				aux = "01";
+				opCode = aux.concat(completaZerosEsquerda(Integer.toBinaryString(Integer
+						.parseInt(instrucao.substring(1, 2)))));
+			} else {
+				aux = "00";
+				opCode = aux.concat(Integer.toBinaryString(Integer
+						.parseInt(instrucao)));
+			}
+		}
+
+		// Pra ver se dentro da string tem um inteiro
+		// matches(".*\\d+.*")
 		return opCode;
 	}
 
@@ -128,9 +163,10 @@ public class Assembler {
 			}
 			i++;
 		}
-		
-		System.out.println("comando: "+resultado[0]+" "+resultado[1]+" "+resultado[2]);
-		
+
+		System.out.println("comando: " + resultado[0] + " " + resultado[1]
+				+ " " + resultado[2]);
+
 		return resultado;
 	}
 
@@ -173,7 +209,7 @@ public class Assembler {
 
 			componentesLinha = getInsOp1Op2(linhasComando[i]);
 
-			memoria.put(enderecoInicial+i, concatInstrucao(componentesLinha));
+			memoria.put(enderecoInicial + i, concatInstrucao(componentesLinha));
 		}
 	}
 
@@ -201,7 +237,7 @@ public class Assembler {
 		scrollPane.setViewportView(table);
 
 		JTextArea textArea = new JTextArea();
-		
+
 		// O que acontece quando "F9" é apertado
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
@@ -212,12 +248,12 @@ public class Assembler {
 					// codigo
 					String[] linhasComando = textArea.getText().split(
 							"\r\n|\r|\n");
-					
-					//Coloca na memoria as linhas de codigo digitadas
+
+					// Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
 					memoria.printMemoria();
-					//processador.startProcess()
-				
+					// processador.startProcess()
+
 				}
 			}
 		});
