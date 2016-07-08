@@ -59,7 +59,6 @@ public class Assembler {
 		}
 		
 		retorno = String.valueOf(aux);
-		System.out.println("retorno: "+ retorno +"\t tamanho: "+ retorno.length());
 		return retorno;
 	}
 
@@ -162,9 +161,6 @@ public class Assembler {
 			i++;
 		}
 
-		System.out.println("comando: " + resultado[0] + " " + resultado[1]
-				+ " " + resultado[2]);
-
 		return resultado;
 	}
 
@@ -255,7 +251,7 @@ public class Assembler {
 					UC uc = new UC();
 					
 					String codInstrucao = memoria.get(0);
-					uc.separaInstrucao(codInstrucao);					
+					uc.decodificaInstrucao(codInstrucao);					
 				}
 			}
 		});
