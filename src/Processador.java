@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Processador {
 	private IR ir;
 	private Registrador pc;
@@ -19,13 +20,13 @@ public class Processador {
 		this.mar = new Registrador("", 2, 3);
 		this.mbr = new Registrador("", 4, 5);
 		this.ir = new IR();
-		
 		this.ax = new Registrador("", 5, 6);
 		this.bx = new Registrador("", 7, 8);
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
 		
-		//Vetor de boolan que representa as portas e seus estados (aberta ou fechada)
+		//Vetor de boolean que representa as portas e seus estados (aberta ou fechada)
+
 		this.barramentoDados = new boolean[23];
 		//Vetor de int que representa quais portas um dado sinal pede que sejam abertas
 		this.sinal = new ArrayList<Integer>();
