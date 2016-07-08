@@ -1,0 +1,9 @@
+Palavra de controle
+
+21 bits para linhas de controle
+
+1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
+
+4 bits ou menos pro commando pra ula
+
+1 bit pra dizer para a memoria se é read ou write
