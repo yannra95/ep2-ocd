@@ -16,8 +16,6 @@ public class Assembler {
 	private DefaultTableModel model;
 	private Memoria memoria;
 	private Processador processador;
-	
-	private final int TAM_BITS_OPERAND = 14;
 
 	/**
 	 * Launch the application.
@@ -46,16 +44,15 @@ public class Assembler {
 	}
 
 	public String completaZerosEsquerda(String s){
+		int tamBitsOperand = 12;
 		String retorno = "";
 		
-		int lim = TAM_BITS_OPERAND - s.length();
-		char[] aux = new char[TAM_BITS_OPERAND];
+		int lim = tamBitsOperand - s.length();
+		char[] aux = new char[tamBitsOperand];
 		
 		for (int i = 0; i < lim; i++) {
 			aux[i] = '0';
 		}
-		
-		System.out.println("tamanho aux: "+lim);
 		
 		for (int k = 0; k < s.length(); k++) {
 			aux[lim+k] = s.charAt(k);
@@ -132,8 +129,6 @@ public class Assembler {
 				aux = "00";
 				opCode = aux.concat(completaZerosEsquerda(Integer.toBinaryString(Integer
 						.parseInt(instrucao))));
-				System.out.println("valor entrado: "+ Integer.toBinaryString(Integer
-						.parseInt(instrucao)));
 			}
 		}
 
