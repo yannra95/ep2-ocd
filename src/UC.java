@@ -11,7 +11,7 @@ public class UC {
 	}
 	
 	/**
-	 * Prepara a instrução recebida para criar a palavra de controle
+	 * Prepara a instruÃ§Ã£o recebida para criar a palavra de controle
 	 */
 	public void separaInstrucao(String codInstrucao){
 
@@ -19,7 +19,7 @@ public class UC {
 		operando1 = codInstrucao.substring(4, 18);
 		operando2 = codInstrucao.substring(18);
 		
-		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
+		System.out.println("operaÃ§Ã£o: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
 		
 		if(operando1.charAt(0) == '1')
 			op1Reg = true;
@@ -42,9 +42,7 @@ public class UC {
 		operando1 = operando1.substring(2);
 		operando2 = operando2.substring(2);
 		
-		
-		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
-		
+		System.out.println("operaÃ§Ã£o: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
 	}
 	
 	public String setLinhaControle(){
