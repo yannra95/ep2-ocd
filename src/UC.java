@@ -13,7 +13,7 @@ public class UC {
 	/**
 	 * Prepara a instrução recebida para criar a palavra de controle
 	 */
-	public void decodificaInstrucao(String codInstrucao){
+	public void separaInstrucao(String codInstrucao){
 
 		operacao = codInstrucao.substring(0, 4);
 		operando1 = codInstrucao.substring(4, 18);
@@ -44,6 +44,24 @@ public class UC {
 		
 		
 		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
+		
+	}
+	
+	public String setLinhaControle(){
+		
+		String retorno = "";
+		
+		return retorno;
+	}
+	
+	public String getPalavraControle(){
+		
+		String retorno = "";
+		
+		return retorno;
+	}
+
+	public void mandaSinal(){
 		
 	}
 }

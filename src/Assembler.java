@@ -246,12 +246,16 @@ public class Assembler {
 					// Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
 					memoria.printMemoria();
-					// processador.startProcess()
-					
-					UC uc = new UC();
-					
-					String codInstrucao = memoria.get(0);
-					uc.decodificaInstrucao(codInstrucao);					
+				}
+			}
+		});
+		
+		textArea.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_F6) {
+
+					processador.cicloInstrucao(memoria);
 				}
 			}
 		});

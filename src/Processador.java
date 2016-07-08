@@ -2,55 +2,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Processador {
-	private IR ir;
 	private Registrador pc;
 	private Registrador mbr;
 	private Registrador mar;
+	private Registrador ir;
 	private Registrador ax;
 	private Registrador bx;
 	private Registrador cx;
 	private Registrador dx;
-	
+
 	private boolean[] barramentoDados;
 	private ArrayList<Integer> sinal;
-	
+
 	public Processador() {
-		this.pc = new Registrador("0",0 , 1);
-		this.mar = new Registrador("", 2, 3);
-		this.mbr = new Registrador("", 4, 5);
-		this.ir = new IR();
-		
+		this.pc = new Registrador("0", 0, 1);
+		this.mar = new Registrador("", 2);
+		this.mbr = new Registrador("", 3, 4);
+		this.setIr(new Registrador("", "", "", 13, 14));
+
 		this.ax = new Registrador("", 5, 6);
 		this.bx = new Registrador("", 7, 8);
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
-		
-		//Vetor de boolan que representa as portas e seus estados (aberta ou fechada)
+
+		// Vetor de boolean que representa as portas e seus estados (aberta ou
+		// fechada)
 		this.barramentoDados = new boolean[23];
-		//Vetor de int que representa quais portas um dado sinal pede que sejam abertas
+		// Vetor de int que representa quais portas um dado sinal pede que sejam
+		// abertas
 		this.sinal = new ArrayList<Integer>();
 	}
-	
-	public void cicloInstrucao(){
-		
+
+	public void cicloInstrucao(Memoria memoria) {
+
 	}
-	
+
+	public void cicloBusca() {
+
+	}
+
+	public void cicloExecucao() {
+
+	}
+
 	/**
-	 * MAR <== PC
-	 * Memoria <== MAR
-	 * MBR <== Memoria
-	 * IR <== MBR
+	 * MAR <== PC Memoria <== MAR MBR <== Memoria IR <== MBR
 	 */
-	
-	
-
-	public IR getIr() {
-		return ir;
-	}
-
-	public void setIr(IR ir) {
-		this.ir = ir;
-	}
 
 	public Registrador getPc() {
 		return pc;
@@ -123,7 +120,13 @@ public class Processador {
 	public void setSinal(ArrayList<Integer> sinal) {
 		this.sinal = sinal;
 	}
-	
-	
-	
+
+	public Registrador getIr() {
+		return ir;
+	}
+
+	public void setIr(Registrador ir) {
+		this.ir = ir;
+	}
+
 }

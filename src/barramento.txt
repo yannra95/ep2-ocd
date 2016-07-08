@@ -8,5 +8,5 @@ CX	9		10
 DX	11		12
 IR	13		14
 ULA	15		16
-AC	17		18
-MEM	19		20
+AC	null	17
+MEM	18		19
