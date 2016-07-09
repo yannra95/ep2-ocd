@@ -15,7 +15,6 @@ public class Processador {
 	public String palavraControle;
 
 	private boolean[] barramentoDados;
-	private ArrayList<Integer> sinal;
 
 	public Processador() {
 
@@ -31,10 +30,7 @@ public class Processador {
 		this.palavraControle = "";
 
 		//Vetor de boolean que representa as portas e seus estados (aberta ou fechada)
-		this.barramentoDados = new boolean[23];
-		// Vetor de int que representa quais portas um dado sinal pede que sejam
-		// abertas
-		this.sinal = new ArrayList<Integer>();
+		this.barramentoDados = new boolean[21];
 	}
 
 	public void cicloInstrucao() {
@@ -44,7 +40,23 @@ public class Processador {
 	}
 	
 	public void interpretaSinal(){
+		abrePortas();
 		
+		
+	}
+	
+	public void abrePortas(){
+		String sinal = palavraControle.substring(0, 21);
+		for (int i = 0; i < barramentoDados.length; i++) {
+			if(sinal.charAt(i) == '1')
+				barramentoDados[i] = true;
+		}
+	}
+	
+	public void fechaPortas(){
+		for (int i = 0; i < barramentoDados.length; i++) {
+			barramentoDados[i] = false;
+		}
 	}
 	
 	/**
@@ -54,7 +66,7 @@ public class Processador {
 		
 		//MAR <- PC 1,2
 		palavraControle = "011000000000000000000 0 00000000 00 0 0";
-		
+		interpretaSinal();
 		//Memoria <- MAR 19
 		palavraControle = "000000000000000000010 0 00000000 00 1 1";
 		
@@ -63,6 +75,10 @@ public class Processador {
 		
 		//IR <- MBR 4,13
 		palavraControle = "000010000000010000000 0 00000000 00 1 1";
+	}
+	
+	public void cicloIndireção(){
+		
 	}
 
 	public void cicloExecucao() {
@@ -135,14 +151,6 @@ public class Processador {
 
 	public void setBarramentoDados(boolean[] barramentoDados) {
 		this.barramentoDados = barramentoDados;
-	}
-
-	public ArrayList<Integer> getSinal() {
-		return sinal;
-	}
-
-	public void setSinal(ArrayList<Integer> sinal) {
-		this.sinal = sinal;
 	}
 
 	public Registrador getIr() {
