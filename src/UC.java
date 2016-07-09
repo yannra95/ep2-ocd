@@ -6,6 +6,7 @@ public class UC {
 	boolean op1Ind;
 	boolean op2Reg;
 	boolean op2Ind;
+	String palavraControle;
 	
 	public UC(){
 	}
@@ -84,14 +85,14 @@ public class UC {
 		return retorno;
 	}
 	
-	public String getPalavraControle(){
+	public void criaPalavraControle(){
 		
 		String retorno = "";
 		
-		return retorno;
+		palavraControle = retorno;
 	}
 
-	public void mandaSinal(){
-		
+	public String mandaSinal(){
+		return palavraControle;
 	}
 }

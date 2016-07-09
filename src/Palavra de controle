@@ -6,7 +6,8 @@ Palavra de controle
 
 2 bits ou menos pro commando pra ula
 
-1 bit pra dizer para a memoria se é read ou write
+1 bit pra dizer para a memoria se é read(1) ou write(0)
 
+1 bit pra dizer se é indireção
 
-000000000000000000000 0 00 0
+000000000000000000000 0 00000000 00 0 0

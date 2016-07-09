@@ -12,6 +12,7 @@ public class Processador {
 	private Registrador cx;
 	private Registrador dx;
 	public Memoria memoria;
+	public String palavraControle;
 
 	private boolean[] barramentoDados;
 	private ArrayList<Integer> sinal;
@@ -27,6 +28,7 @@ public class Processador {
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
 		this.memoria = new Memoria();
+		this.palavraControle = "";
 
 		//Vetor de boolean que representa as portas e seus estados (aberta ou fechada)
 		this.barramentoDados = new boolean[23];
@@ -37,10 +39,30 @@ public class Processador {
 
 	public void cicloInstrucao() {
 		
+		cicloBusca();
+		
 	}
-
+	
+	public void interpretaSinal(){
+		
+	}
+	
+	/**
+	 * Contrução manual da palavra de controle representa a interpretação da UC
+	 */
 	public void cicloBusca() {
-
+		
+		//MAR <- PC 1,2
+		palavraControle = "011000000000000000000 0 00000000 00 0 0";
+		
+		//Memoria <- MAR 19
+		palavraControle = "000000000000000000010 0 00000000 00 1 1";
+		
+		//MBR <- Memoria 20
+		palavraControle = "000100000000000000001 0 00000000 00 1 1";
+		
+		//IR <- MBR 4,13
+		palavraControle = "000010000000010000000 0 00000000 00 1 1";
 	}
 
 	public void cicloExecucao() {
