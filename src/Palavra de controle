@@ -1,6 +1,6 @@
 Palavra de controle
 
-21 bits para linhas de controle
+20 bits para linhas de controle
 
 1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
 
@@ -10,4 +10,4 @@ Palavra de controle
 
 1 bit pra dizer se é indireção
 
-000000000000000000000 0 00000000 00 0 0
+00000000000000000000 0 00000000 00 0 0

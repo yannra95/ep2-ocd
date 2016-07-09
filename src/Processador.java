@@ -42,11 +42,15 @@ public class Processador {
 	public void interpretaSinal(){
 		abrePortas();
 		
+		//Se as portas da ULA não tiverem abertas, operação envolve apenas transporte de dados
+		if(!barramentoDados[15]){
+			
+		}
 		
 	}
 	
 	public void abrePortas(){
-		String sinal = palavraControle.substring(0, 21);
+		String sinal = palavraControle.substring(0, 20);
 		for (int i = 0; i < barramentoDados.length; i++) {
 			if(sinal.charAt(i) == '1')
 				barramentoDados[i] = true;
@@ -65,16 +69,16 @@ public class Processador {
 	public void cicloBusca() {
 		
 		//MAR <- PC 1,2
-		palavraControle = "011000000000000000000 0 00000000 00 0 0";
+		palavraControle = "01100000000000000000 0 00000000 00 0 0";
 		interpretaSinal();
-		//Memoria <- MAR 19
-		palavraControle = "000000000000000000010 0 00000000 00 1 1";
+		//Memoria <- MAR 18
+		palavraControle = "00000000000000000010 0 00000000 00 1 1";
 		
-		//MBR <- Memoria 20
-		palavraControle = "000100000000000000001 0 00000000 00 1 1";
+		//MBR <- Memoria 4, 19
+		palavraControle = "00010000000000000001 0 00000000 00 1 1";
 		
 		//IR <- MBR 4,13
-		palavraControle = "000010000000010000000 0 00000000 00 1 1";
+		palavraControle = "00001000000001000000 0 00000000 00 1 1";
 	}
 	
 	public void cicloIndireção(){

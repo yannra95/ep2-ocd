@@ -7,7 +7,7 @@ BX	7		8
 CX	9		10
 DX	11		12
 IR	13		14
-ULA	15		16
-X	17		null
-AC	null	18
-MEM	19		20
+ULA	15		null
+X	16		null
+AC	null	17
+MEM	18		19
