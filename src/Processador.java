@@ -11,6 +11,7 @@ public class Processador {
 	private Registrador bx;
 	private Registrador cx;
 	private Registrador dx;
+	public Memoria memoria;
 
 	private boolean[] barramentoDados;
 	private ArrayList<Integer> sinal;
@@ -25,6 +26,7 @@ public class Processador {
 		this.bx = new Registrador("", 7, 8);
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
+		this.memoria = new Memoria();
 
 		//Vetor de boolean que representa as portas e seus estados (aberta ou fechada)
 		this.barramentoDados = new boolean[23];
@@ -33,8 +35,8 @@ public class Processador {
 		this.sinal = new ArrayList<Integer>();
 	}
 
-	public void cicloInstrucao(Memoria memoria) {
-
+	public void cicloInstrucao() {
+		
 	}
 
 	public void cicloBusca() {
@@ -128,5 +130,4 @@ public class Processador {
 	public void setIr(Registrador ir) {
 		this.ir = ir;
 	}
-
 }

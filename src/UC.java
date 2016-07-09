@@ -45,7 +45,39 @@ public class UC {
 		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
 	}
 	
-	public String setLinhaControle(){
+	public String setLinhasControle(){
+		
+// 000000000000000000000
+		
+//		mov:	0100
+//		add:	0101
+//		sub:	0110
+//		mul:	0111
+//		div:	1000
+//		jmp:	1001
+		switch (operacao) {
+		case "0100":
+			
+			break;
+		case "0101":
+			
+			break;
+		case "0110":
+			
+			break;
+		case "0111":
+			
+			break;
+		case "1000":
+			
+			break;
+		case "1001":
+			
+			break;
+
+		default:
+			break;
+		}
 		
 		String retorno = "";
 		

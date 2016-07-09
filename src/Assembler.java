@@ -14,7 +14,6 @@ public class Assembler {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private DefaultTableModel model;
-	private Memoria memoria;
 	private Processador processador;
 
 	/**
@@ -39,7 +38,6 @@ public class Assembler {
 	 */
 	public Assembler() {
 		processador = new Processador();
-		memoria = new Memoria();
 		initialize();
 	}
 
@@ -203,7 +201,7 @@ public class Assembler {
 
 			componentesLinha = getInsOp1Op2(linhasComando[i]);
 
-			memoria.put(enderecoInicial + i, concatInstrucao(componentesLinha));
+			processador.memoria.put(enderecoInicial + i, concatInstrucao(componentesLinha));
 		}
 	}
 
@@ -245,7 +243,7 @@ public class Assembler {
 
 					// Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
-					memoria.printMemoria();
+					processador.memoria.printMemoria();
 				}
 			}
 		});
@@ -255,7 +253,7 @@ public class Assembler {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_F6) {
 
-					processador.cicloInstrucao(memoria);
+					processador.cicloInstrucao();
 				}
 			}
 		});

@@ -1,7 +1,7 @@
 public class Registrador {
 
 	private String conteudo;
-	private String[] conteudoIR;
+	private String[] conteudoIR = new String[3];
 	private int portaEntrada;
 	private int portaSaida;
 	private String endereco;
