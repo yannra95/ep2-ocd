@@ -15,6 +15,7 @@ public class Assembler {
 	private JTable table;
 	private DefaultTableModel model;
 	private Processador processador;
+	private static JTextArea textAreaLog;
 
 	/**
 	 * Launch the application.
@@ -23,6 +24,7 @@ public class Assembler {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Log.inicializaLog();
 					Assembler window = new Assembler();
 					// window.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					window.frame.setVisible(true);
@@ -39,6 +41,18 @@ public class Assembler {
 	public Assembler() {
 		processador = new Processador();
 		initialize();
+	}
+	
+	public static void atualizaTextAreLog(String[] s){
+		
+		textAreaLog.setText("");
+		for(String str : s){
+			textAreaLog.append(str);
+		}
+	}
+	
+	public static void atualizaTextAreLog(String s){
+		textAreaLog.append(s);
 	}
 
 	public String completaZerosEsquerda(String s){
@@ -229,6 +243,12 @@ public class Assembler {
 		scrollPane.setViewportView(table);
 
 		JTextArea textArea = new JTextArea();
+		
+		textAreaLog = new JTextArea();
+		textAreaLog.setEditable(false);
+		textAreaLog.setText(Log.getLastFrom());
+		textAreaLog.setBounds(10, 300, 334, 269);
+		frame.getContentPane().add(textAreaLog);
 
 		// O que acontece quando "F9" é apertado
 		textArea.addKeyListener(new KeyAdapter() {
