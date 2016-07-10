@@ -3,14 +3,17 @@ public class Registrador {
 	private String conteudo;
 	private String[] conteudoIR = new String[3];
 	private int portaEntrada;
+	private boolean isEntradaAberta;
 	private int portaSaida;
-	private String endereco;
+	private boolean isSaidaAberta;
 	
 	public Registrador(String conteudo, int portaEntrada, int portaSaida) {
 		super();
 		this.conteudo = conteudo;
 		this.portaEntrada = portaEntrada;
+		this.isEntradaAberta = false;
 		this.portaSaida = portaSaida;
+		this.isSaidaAberta = false;
 	}
 	/**
 	 * Se o registrador for o IR. 0 é a operação, 1 é o operando1, 2 é o operando 2
@@ -24,7 +27,9 @@ public class Registrador {
 		this.conteudoIR[1] = operando1;
 		this.conteudoIR[2] = operando2;
 		this.portaEntrada = portaEntrada;
+		this.isEntradaAberta = false;
 		this.portaSaida = portaSaida;
+		this.isSaidaAberta = false;
 	}
 	
 	//Se tiver apenas uma porta, por convençao, usaremos a de entrada
@@ -32,6 +37,8 @@ public class Registrador {
 		super();
 		this.conteudo = conteudo;
 		this.portaEntrada = portaEntrada;
+		this.isEntradaAberta = false;
+		this.portaSaida = -1;
 	}
 	
 	
@@ -49,12 +56,6 @@ public class Registrador {
 	public int getPortaSaida() {
 		return portaSaida;
 	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
 
 	public String[] getConteudoIR() {
 		return conteudoIR;
@@ -62,6 +63,18 @@ public class Registrador {
 
 	public void setConteudoIR(String[] conteudoIR) {
 		this.conteudoIR = conteudoIR;
+	}
+	public boolean isEntradaAberta() {
+		return isEntradaAberta;
+	}
+	public void setEntradaAberta(boolean isEntradaAberta) {
+		this.isEntradaAberta = isEntradaAberta;
+	}
+	public boolean isSaidaAberta() {
+		return isSaidaAberta;
+	}
+	public void setSaidaAberta(boolean isSaidaAberta) {
+		this.isSaidaAberta = isSaidaAberta;
 	}
 	
 
