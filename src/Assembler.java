@@ -67,11 +67,11 @@ public class Assembler {
 	}
 
 	/**
-	 * Devolve o OPCODE para dada instrução, para ser guardado na memoria
+	 * Devolve o OPCODE para dada instruï¿½ï¿½o, para ser guardado na memoria
 	 * 
 	 * @return opCode
 	 */
-	public String getOpCode(String instrucao) {
+	public static String getOpCode(String instrucao) {
 		String opCode = "";
 		String aux;
 		switch (instrucao) {
@@ -121,9 +121,9 @@ public class Assembler {
 			break;
 		}
 
-		// Se tiver um numero na instrução
+		// Se tiver um numero na instruï¿½ï¿½o
 		if (instrucao.matches(".*\\d+.*")) {
-			// Se for uma indireção
+			// Se for uma indireï¿½ï¿½o
 			if (instrucao.contains("[")) {
 				aux = "01";
 				opCode = aux.concat(completaZerosEsquerda(Integer.toBinaryString(Integer
@@ -141,8 +141,8 @@ public class Assembler {
 	}
 
 	/**
-	 * Retorna em um vetor a instrução e os operadores separadamentes
-	 * resultado[0]: instrução; resultado[1]: op1; resultado[2]: op2
+	 * Retorna em um vetor a instruï¿½ï¿½o e os operadores separadamentes
+	 * resultado[0]: instruï¿½ï¿½o; resultado[1]: op1; resultado[2]: op2
 	 * 
 	 * @param comando
 	 * @return
@@ -154,7 +154,7 @@ public class Assembler {
 
 			resultado[0] = comando.split(" ")[0];
 
-			// Se tiver uma vírgula, ou seja, se houverem 2 operadores
+			// Se tiver uma vï¿½rgula, ou seja, se houverem 2 operadores
 			if (comando.indexOf(',') > 0) {
 				resultado[1] = comando.split(" ")[1].split(",")[0];
 				resultado[2] = comando.split(" ")[1].split(",")[1];
@@ -169,7 +169,7 @@ public class Assembler {
 	}
 
 	/**
-	 * Retorna uma String com a concatenação dos opCodes da intrução e dos
+	 * Retorna uma String com a concatenaï¿½ï¿½o dos opCodes da intruï¿½ï¿½o e dos
 	 * operadores
 	 * 
 	 * @param componentesLinha
@@ -183,7 +183,7 @@ public class Assembler {
 	}
 
 	/**
-	 * Adiciona uma nova linha na 1ª posição da tabela
+	 * Adiciona uma nova linha na 1ï¿½ posiï¿½ï¿½o da tabela
 	 * 
 	 * @param data
 	 */
@@ -193,7 +193,7 @@ public class Assembler {
 	}
 
 	/**
-	 * Adiciona as linhas de codigo a partir do endereço da memoria especificado
+	 * Adiciona as linhas de codigo a partir do endereï¿½o da memoria especificado
 	 * 
 	 * @param linhasComando
 	 * @param enderecoInicial
@@ -202,7 +202,7 @@ public class Assembler {
 
 		String[] componentesLinha;
 
-		// Cada linha é adicionada à memória
+		// Cada linha ï¿½ adicionada ï¿½ memï¿½ria
 		for (int i = 0; i < linhasComando.length; i++) {
 
 			componentesLinha = getInsOp1Op2(linhasComando[i]);
@@ -256,14 +256,14 @@ public class Assembler {
 		textAreaLog.setBounds(10, 300, 334, 269);
 		frame.getContentPane().add(textAreaLog);
 
-		// O que acontece quando "F9" é apertado
+		// O que acontece quando "F9" ï¿½ apertado
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_F9) {
 					Log.inicializaLog(mySelf);
 
-					// Cria um vetor onde cada posição é uma linha do bloco de
+					// Cria um vetor onde cada posiï¿½ï¿½o ï¿½ uma linha do bloco de
 					// codigo
 					String[] linhasComando = textArea.getText().split(
 							"\r\n|\r|\n");
