@@ -49,26 +49,6 @@ public class Processador {
 		
 	}	
 	
-	public void lerInstrucao(int pc) {
-		String instrucao = memoria.get(pc);
-		
-		String linhasControle = instrucao.substring(0, 20);
-		String condJump = instrucao.substring(20,21);
-		String comandoUla = instrucao.substring(21,23);
-		String readWrite = instrucao.substring(23,24);
-		String indirecao = instrucao.substring(24,25);
-		
-		if (indirecao.charAt(0) == '1') {
-			// Retornar mais de uma palavra
-			
-		} else {
-			// Palavra simples
-			Palavra palavra = new Palavra(linhasControle,condJump,comandoUla,readWrite,indirecao);
-		}
-		
-		
-		
-	}
 	
 	public void abrePortas(){
 		String sinal = palavraControle.substring(0, 20);
