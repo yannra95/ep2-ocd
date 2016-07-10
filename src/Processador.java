@@ -90,7 +90,8 @@ public class Processador {
 
 	}
 /*portas			   jmp	endereço	ula	r/w	ind
- *00000000000000000000 0 	00000000 	00 	0 	0 
+ *00000000000000000000 0 	00000000 	00 	0 	0
+ *0					19 20		  28	30	31	32
  */
 	public void interpretaPalavra() {
 		
@@ -99,9 +100,28 @@ public class Processador {
 		//Se a porta da de entrada da memoria estiver aberta
 		if(registradores[12].isEntradaAberta()){
 			//Se for pra ler
+			if(palavraControle.charAt(31) == '1'){
+				//Coloca na memoria o endereço q deve ocorrer a busca 
+				registradores[12].setConteudo(registradores[0].getConteudo());
+			}
+			//Se for pra escrever
+			else{
+				
+			}
 		}
 		
 		//Se a porta de saida da memoria estiver aberta
+		if (registradores[12].isSaidaAberta()) {
+			//Se for pra ler
+			if(palavraControle.charAt(31) == '1'){
+				//Coloca no MBR o que a memoria retornar
+				registradores[2].setConteudo(memoria.get(registradores[12].getConteudo()));
+			}
+			//Se for pra escrever
+			else{
+				
+			}			
+		}
 		
 		// Se as portas da ULA nï¿½o tiverem abertas, operaï¿½ï¿½o envolve
 		// apenas transporte de dados
