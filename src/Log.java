@@ -24,6 +24,8 @@ public class Log {
 		
 		DateFormat timeStampFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
 		timeStampLog = timeStampFormat.format(cal.getTime());
+		
+		assembler.atualizaTextAreLog(inicial);
 	}
 	
 	
@@ -34,6 +36,7 @@ public class Log {
 		adicional = dateFormat.format(cal.getTime()) + " - \t" + s;
 		
 		historico.add(adicional);
+		assembler.atualizaTextAreLog(adicional);
 	}
 	
 	public static String[] getAllFrom(){
