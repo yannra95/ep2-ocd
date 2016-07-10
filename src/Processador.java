@@ -16,6 +16,16 @@ public class Processador {
 	private Registrador ac;
 	private Registrador mem;
 	private Registrador[] registradores;
+	
+	//Flags em relação a zero
+	private Flag fIgual;
+	private Flag fDiferente;
+	private Flag fMaiorOuIgual;
+	private Flag fMaior;
+	private Flag fMenorOuIgual;
+	private Flag fMenor;
+	private Flag[] flags;
+	
 	public Memoria memoria;
 	public String palavraControle;
 	private UC uc;
@@ -55,6 +65,17 @@ public class Processador {
 		this.mem = new Registrador("", 18, 19);
 		this.registradores = new Registrador[] { pc, mar, mbr, ir, ax, bx, cx,
 				dx, ir, ula, x, ac, mem };
+		
+		
+		this.fIgual = new Flag(false, "igual a zero");
+		this.fDiferente = new Flag(false, "diferente de zero");
+		this.fMaiorOuIgual = new Flag(false, "maior ou igual a zero");
+		this.fMaior = new Flag(false, "maior do que zero");
+		this.fMenorOuIgual = new Flag(false, "menor ou igual a zero");
+		this.fMenor = new Flag(false, "menor do que zero");
+		this.flags = new Flag[] { fIgual, fDiferente, fMaiorOuIgual, 
+			        fMaior, fMenorOuIgual, fMenor };
+		
 		this.memoria = new Memoria(assembler);
 		this.palavraControle = "";
 
