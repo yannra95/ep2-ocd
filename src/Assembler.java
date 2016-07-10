@@ -71,7 +71,7 @@ public class Assembler {
 	 * 
 	 * @return opCode
 	 */
-	public static String getOpCode(String instrucao) {
+	public String getOpCode(String instrucao) {
 		String opCode = "";
 		String aux;
 		switch (instrucao) {
