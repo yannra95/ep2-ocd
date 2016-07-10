@@ -72,11 +72,13 @@ public class Processador {
 	public void interpretaPalavra() {
 		
 		abrePortas();
+		
+		System.out.println("porta: "+registradores[0].isSaidaAberta());
 
 		// Se as portas da ULA n�o tiverem abertas, opera��o envolve
 		// apenas transporte de dados
 		if (!registradores[9].isEntradaAberta()) {
-			copyReg2Reg();System.out.println("oi");
+			copyReg2Reg();
 		} else {
 
 		}
@@ -102,6 +104,7 @@ public class Processador {
 		String portas = palavraControle.substring(0, 20);
 		for (int i = 0; i < barramentoDados.length; i++) {
 			if (portas.charAt(i) == '1') {
+				System.out.println("Abriu: "+i);
 				barramentoDados[i] = true;
 				for (int j = 0; j < registradores.length; j++) {
 					if (registradores[j].getPortaEntrada() == i)
