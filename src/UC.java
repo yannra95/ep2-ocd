@@ -23,11 +23,23 @@ public class UC {
 		String opcode = memoria.get(endereco); // instrução a ser lida
 		//Para log
 		
-		String instrucao = opcode.substring(0,4);
+		String ins = opcode.substring(0,4);
 		String operando1 = opcode.substring(4,18);
 		String operando2 = opcode.substring(18);
+		
+		if (ins == "0100") {
+		// MOV 
+	
+		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){  
+		//ADD - SUB - MUL - DIV
+		} else if (ins == "1001"){
+		// JUMP 
+		} else {
+		// OUTROS JUMPS
+		}
+		
 
-		geraPalavra(instrucao, operando1, operando2);
+		geraPalavra(ins, operando1, operando2);
 		
 		String linhasControle;
 		String condJump;
@@ -36,6 +48,85 @@ public class UC {
 		String indirecao;
 	}	
 		//Para log
+	
+	
+	
+	/** 
+	20 bits para linhas de controle
+	1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
+	2 bits ou menos pro comando pra ula
+	1 bit pra dizer para a memoria se é read(1) ou write(0)
+	1 bit pra dizer se é indireção
+	00000000000000000000 0 00000000 00 0 0*/
+	
+	
+	public ArrayList<Palavra> geraPalavra(String instrucao, String operando1, String operando2) {
+		
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
+		
+		boolean op1Ind = false, op2Ind = false;
+		
+		if (operando1.charAt(1) == '1') { // op1 indireção
+			op1Ind = true;
+		}
+		if (operando2.charAt(1) == '1') { // op2 indireção 
+			op2Ind = true;
+		}
+//		palavraBase();
+//		palavraULA();
+//		palavraJump();
+//		palavraMOV();
+//		
+//		palavras.add();
+		geraSinal(recuperaEntrada(operando1, op1Ind)); // pega sinais OP1 
+		geraSinal(recuperaSaida(operando2,op2Ind)); // pega sinais OP2
+		if(op1Ind){
+			
+		}
+		if(op2Ind){
+			// MBR <- MAR
+		}
+
+		
+		Palavra palavra1 = new Palavra(operando2, operando2, operando2, operando2, "1");
+		
+		//Para log
+		return palavras;
+	}
+	
+	private void palavraULA() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Palavra geraIndirecao(String operando, boolean primeiroOp) {
+		
+		Palavra indirecao = null;
+		
+		
+		
+		return  indirecao;
+	}
+	
+	public String geraSinal(ArrayList<Integer>portas) {
+		String sinal = "";
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < 20; i++) {
+			if (portas.contains(i)) {
+				sb.append('1');
+			} else {
+				sb.append('0');
+			}
+		}
+		sinal = sb.toString();
+		System.out.println("sinal " + sinal);
+		return sinal;
+	}
+	
+	public String mandaSinal(){
+		return palavraControle;
+	}
 	
 	public ArrayList<Integer> recuperaEntrada(String operando, boolean indirecao) {
 		ArrayList<Integer> portas = new ArrayList<Integer>();
@@ -81,104 +172,6 @@ public class UC {
 			portas.add(retornaPortaSaida("MAR"));
 		}
 		return portas;
-	}
-	
-	/** 
-	20 bits para linhas de controle
-	1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
-	2 bits ou menos pro comando pra ula
-	1 bit pra dizer para a memoria se é read(1) ou write(0)
-	1 bit pra dizer se é indireção
-	00000000000000000000 0 00000000 00 0 0*/
-	
-	public ArrayList<Palavra> geraPalavra(String instrucao, String operando1, String operando2) {
-		
-		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
-		
-		boolean op1Ind = false, op2Ind = false;
-		
-		if (operando1.charAt(1) == '1') { // op1 indireção
-			op1Ind = true;
-		}
-		if (operando2.charAt(1) == '1') { // op2 indireção 
-			op2Ind = true;
-		}
-		
-		// palavras.add();
-		
-		recuperaEntrada(operando1, op1Ind); // pega sinais OP1 
-		recuperaSaida(operando2,op2Ind); // pega sinais OP2
-		if(op1Ind){
-			
-		}
-		if(op2Ind){
-			// MBR <- MAR
-		}
-
-		switch(instrucao) {
-		case "0100": // MOV
-			break;
-		case "0101": // ADD
-			
-				
-			break;
-		case "0110": // SUB
-			break;
-		case "0111": // MUL
-			break;
-		case "1000": // DIV
-			break;
-		case "1001": // JMP
-			break;
-		case "1010": // JZ
-			break;
-		case "1011": // JNZ
-			break;
-		case "1100": // JG
-			break;
-		case "1101": // JGE
-			break;
-		case "1110": // JL
-			break;
-		case "1111": // JLE
-			break;
-		default:
-			// Para log > "Instrução inválida"
-			break;
-	}
-		Palavra palavra1 = new Palavra(operando2, operando2, operando2, operando2, "1");
-		
-		//Para log
-		return palavras;
-	}
-	
-	public Palavra geraIndirecao(String operando, boolean um) {
-		
-		Palavra indirecao = null;
-		
-		
-		
-		return  indirecao;
-	}
-	
-	public String geraSinal(ArrayList<Integer>portas) {
-		String sinal = "";
-		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 0; i < 20; i++) {
-			if (portas.contains(i)) {
-				sb.append('1');
-			} else {
-				sb.append('0');
-			}
-		}
-		sinal = sb.toString();
-		System.out.println("sinal " + sinal);
-		return sinal;
-	}
-	
-	public String mandaSinal(){
-		return palavraControle;
 	}
 	
 	public int retornaPortaEntrada(String local) {
@@ -244,37 +237,4 @@ public class UC {
 		} 
 		return -1; //TODO
 	}
-	
-	/**
-	 * Prepara a instrução recebida para criar a palavra de controle
-	 */
-	/*public void separaInstrucao(String codInstrucao){
-		operacao = codInstrucao.substring(0, 4);
-		operando1 = codInstrucao.substring(4, 18);
-		operando2 = codInstrucao.substring(18);
-		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
-		if(operando1.charAt(0) == '1')
-			op1Reg = true;
-		else
-			op1Reg = false;
-		if(operando1.charAt(1) == '1')
-			op1Ind = true;
-		else
-			op1Ind = false;
-		if(operando2.charAt(0) == '1')
-			op2Reg = true;
-		else
-			op2Reg = false;
-		if(operando2.charAt(1) == '1')
-			op2Ind = true;
-		else
-			op2Ind = false;
-		operando1 = operando1.substring(2);
-		operando2 = operando2.substring(2);
-		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
-	}*/
-	
-	//Para log
-	//Mostrar só o que for necessário
-
 }

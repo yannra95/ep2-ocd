@@ -1,1 +1,30 @@
 Conferir o encoding (UTF-8) 
+
+switch(instrucao) {
+		case "0100": // MOV
+			break;
+		case "0101": // ADD
+			break;
+		case "0110": // SUB
+			break;
+		case "0111": // MUL
+			break;
+		case "1000": // DIV
+			break;
+		case "1001": // JMP
+			break;
+		case "1010": // JZ
+			break;
+		case "1011": // JNZ
+			break;
+		case "1100": // JG
+			break;
+		case "1101": // JGE
+			break;
+		case "1110": // JL
+			break;
+		case "1111": // JLE
+			break;
+		default:
+			// Para log > "Instrução inválida"
+			break;
