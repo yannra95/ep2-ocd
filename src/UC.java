@@ -16,16 +16,26 @@ public class UC {
 	
 	/*
 	 * inst	reg		ind	op1				reg	ind	op2
-	 * 0000	 0	 	 0	000000000000	 0	 0	000000000000
+	 * 0000	 0	 	 1	000000000001	 0	 0	000000000000
+	 * 
 	 */
 	
-	public Palavra[] lerInstrucao(Memoria memoria, int endereco) {
+	
+	// Esse método retorna as palavras de controle envolvidas na linha de código digitada
+	// Deve ser executado após a execução completa da linha de código anterior 
+	public void lerInstrucao(Memoria memoria, int endereco) {
 		String opcode = memoria.get(endereco); // instrução a ser lida
+		//Para log
 		
 		String instrucao = opcode.substring(0,4);
 		String operando1 = opcode.substring(4,18);
 		String operando2 = opcode.substring(18);
 		
+		String linhasControle;
+		String condJump;
+		String comandoUla;
+		String readWrite;
+		String indirecao;
 		/** 
 		20 bits para linhas de controle
 		1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
@@ -34,34 +44,59 @@ public class UC {
 		1 bit pra dizer se é indireção
 		00000000000000000000 0 00000000 00 0 0*/
 		
+		switch(instrucao) {
+			case "0100": // MOV
+				break;
+			case "0101": // ADD
+				
+				break;
+			case "0110": // SUB
+				break;
+			case "0111": // MUL
+				break;
+			case "1000": // DIV
+				break;
+			case "1001": // JMP
+				break;
+			default:
+				System.out.println("Operação inválida");
+				break;
+		}
 		
-		if (operando1.charAt(0) == '1') { // se há uma indireção no op1
-			
+		//Para log
+		// colocar num arrayList
+		
+		/**ax: 	0000
+		bx: 	0001
+		cx: 	0010
+		dx: 	0011 */		
+		
+		if (operando1.charAt(1) == '1') { // se há uma indireção no op1
+			if (operando1.charAt(0) == '1') { // se é um registrador
+			}
 			
 		}
-		if (operando2.charAt(0) == '1') { // se há uma indireção no op2
+		if (operando2.charAt(1) == '1') { // se há uma indireção no op2
 			
 		}
 		
-		String linhasControle = opcode.substring(0, 20);
-		String condJump = opcode.substring(20,21);
-		String comandoUla = opcode.substring(21,23);
-		String readWrite = opcode.substring(23,24);
-		String indirecao = opcode.substring(24,25);
-		
-		Palavra[] palavrasDeControle;
-		
-		if (indirecao.charAt(0) == '1') {
-			// Retornar mais de uma palavra
-			palavrasDeControle = new Palavra[2];
-		} else {
-			// Palavra simples
-			palavrasDeControle = new Palavra[1];
-			Palavra palavra = new Palavra(linhasControle,condJump,comandoUla,readWrite,indirecao);
-			palavrasDeControle[0] = palavra;
-		}
-		return palavrasDeControle;
+			
 	}
+	
+	public Palavra geraPalavra() {
+
+		
+		Palavra palavra1 = new Palavra(operando2, operando2, operando2, operando2, "1");
+		
+		
+		
+		
+		//Para log
+		return palavra1;
+		/** talvez adicionar a um arrayList e zerar esse arrayList 
+			antes da próxima linha de código ser executada */
+	}
+	
 	
 	/**
 	 * Prepara a instrução recebida para criar a palavra de controle
@@ -97,54 +132,133 @@ public class UC {
 		
 		System.out.println("operação: "+operacao+" operando1: "+operando1+" operando2: "+operando2);
 	}
-	
-	public String setLinhasControle(){
-		
-// 000000000000000000000
-		
-//		mov:	0100
-//		add:	0101
-//		sub:	0110
-//		mul:	0111
-//		div:	1000
-//		jmp:	1001
-		switch (operacao) {
-		case "0100":
-			
-			break;
-		case "0101":
-			
-			break;
-		case "0110":
-			
-			break;
-		case "0111":
-			
-			break;
-		case "1000":
-			
-			break;
-		case "1001":
-			
-			break;
-
-		default:
-			break;
-		}
-		
-		String retorno = "";
-		
-		return retorno;
-	}
-	
-	public void criaPalavraControle(){
-		
-		String retorno = "";
-		
-		palavraControle = retorno;
-	}
 
 	public String mandaSinal(){
 		return palavraControle;
 	}
+	
+	public String retornaPortaEntrada(String local) {
+		switch(local) {
+			case "PC":
+				return "0";
+			case "MAR":
+				return "2";
+			case "MBR":
+				return "3";
+			case "AX":
+				return "5";
+			case "BX":
+				return "7";
+			case "CX":
+				return "9";
+			case "DX":
+				return "11";
+			case "IR":
+				return "13";
+			case "ULA":
+				return "15";
+			case "X":
+				return "16";
+			case "AC":
+				return null;
+			case "MEM":
+				return "18";
+			default:
+				return null;
+		}
+	}
+	
+	public String retornaPortaSaida(String local) {
+		switch(local) {
+		case "PC":
+			return "1";
+		case "MAR":
+			return null; 
+		case "MBR":
+			return "4";
+		case "AX":
+			return "6";
+		case "BX":
+			return "8";
+		case "CX":
+			return "10";
+		case "DX":
+			return "12";
+		case "IR":
+			return "14";
+		case "ULA":
+			return null;
+		case "X":
+			return null;
+		case "AC":
+			return "17";
+		case "MEM":
+			return "19";
+		default:
+			return null;
+		} 
+	}
+	
+	/**
+	 * public String retornaPortaEntrada(String local) {
+		switch(local) {
+			case "PC":
+				return "00000000000000000000";
+			case "MAR":
+				return "00000000000000000010";
+			case "MBR":
+				return "00000000000000000011";
+			case "AX":
+				return "00000000000000000101";
+			case "BX":
+				return "00000000000000000111";
+			case "CX":
+				return "00000000000000001001";
+			case "DX":
+				return "00000000000000001011";
+			case "IR":
+				return "00000000000000001101";
+			case "ULA":
+				return "00000000000000001111";
+			case "X":
+				return "00000000000000010000";
+			case "AC":
+				return null;
+			case "MEM":
+				return "00000000000000010010";
+			default:
+				return null;
+		}
+	}
+	
+	public String retornaPortaSaida(String local) {
+		switch(local) {
+		case "PC":
+			return "00000000000000000001";
+		case "MAR":
+			return null; 
+		case "MBR":
+			return "00000000000000000100";
+		case "AX":
+			return "00000000000000000110";
+		case "BX":
+			return "00000000000000001000";
+		case "CX":
+			return "00000000000000001010";
+		case "DX":
+			return "00000000000000001100";
+		case "IR":
+			return "00000000000000001110";
+		case "ULA":
+			return null;
+		case "X":
+			return null;
+		case "AC":
+			return "00000000000000010001";
+		case "MEM":
+			return "00000000000000010011";
+		default:
+			return null;
+		} 
+	}*/
 }
