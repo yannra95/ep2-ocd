@@ -80,7 +80,8 @@ public class Processador {
 			
 		}
 		
-	}
+	}	
+	
 	
 	public void abrePortas(){
 		String sinal = palavraControle.substring(0, 20);

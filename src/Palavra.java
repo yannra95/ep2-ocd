@@ -8,6 +8,4 @@ public class Palavra {
 		palavra[3] = readWrite;
 		palavra[4] = indirecao;		
 	}
-	
-	
 }
