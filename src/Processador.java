@@ -89,21 +89,28 @@ public class Processador {
 		cicloBusca();
 
 	}
-
+/*portas			   jmp	endereço	ula	r/w	ind
+ *00000000000000000000 0 	00000000 	00 	0 	0 
+ */
 	public void interpretaPalavra() {
 		
 		abrePortas();
 		
-		System.out.println("porta: "+registradores[0].isSaidaAberta());
-
+		//Se a porta da de entrada da memoria estiver aberta
+		if(registradores[12].isEntradaAberta()){
+			//Se for pra ler
+			if()
+		}
+		
+		//Se a porta de saida da memoria estiver aberta
+		
 		// Se as portas da ULA nï¿½o tiverem abertas, operaï¿½ï¿½o envolve
 		// apenas transporte de dados
 		if (!registradores[9].isEntradaAberta()) {
-			copyReg2Reg();
+			
 		} else {
 
 		}
-
 	}
 
 	/**
@@ -114,10 +121,14 @@ public class Processador {
 		for (int i = 0; i < registradores.length; i++)
 			if (registradores[i].isSaidaAberta())
 				regOut = registradores[i].getConteudo();
-
+		
+		System.out.println("regOut: "+regOut);
+		
 		for (int i = 0; i < registradores.length; i++) {
-			if (registradores[i].isSaidaAberta())
+			if (registradores[i].isEntradaAberta()){
 				registradores[i].setConteudo(regOut);
+				System.out.println(regOut+"/"+registradores[i].getConteudo()+"i: "+i);
+			}
 		}
 	}
 
@@ -125,17 +136,15 @@ public class Processador {
 		String portas = palavraControle.substring(0, 20);
 		for (int i = 0; i < barramentoDados.length; i++) {
 			if (portas.charAt(i) == '1') {
-				System.out.println("Abriu: "+i);
-				barramentoDados[i] = true;
 				for (int j = 0; j < registradores.length; j++) {
 					
 //					System.out.println("checkout: "+i+"/"+registradores[j].getPortaSaida());
 					
 					if (registradores[j].getPortaEntrada() == i){
-						registradores[j].setEntradaAberta(true);	System.out.println("checkout1: "+registradores[j].getPortaEntrada());
+						registradores[j].setEntradaAberta(true);
 					}
 					if (registradores[j].getPortaSaida() == i){
-						registradores[j].setSaidaAberta(true);		System.out.println("checkout2: "+registradores[j].getPortaSaida());
+						registradores[j].setSaidaAberta(true);
 					}
 				}
 			}
@@ -159,16 +168,16 @@ public class Processador {
 	public void cicloBusca() {
 
 		// MAR <- PC 1,2
-		palavraControle = "011000000000000000000 00000000 00 0 0";
+		palavraControle = "01100000000000000000 0 00000000 00 0 0";
 		interpretaPalavra();
 		// Memoria <- MAR 18
-		palavraControle = "00000000000000000010 0 00000000 00 1 1";
+		palavraControle = "00000000000000000010 0 00000000 00 1 0";
 
 		// MBR <- Memoria 4, 19
-		palavraControle = "00010000000000000001 0 00000000 00 1 1";
+		palavraControle = "00010000000000000001 0 00000000 00 1 0";
 
 		// IR <- MBR 4,13
-		palavraControle = "00001000000001000000 0 00000000 00 1 1";
+		palavraControle = "00001000000001000000 0 00000000 00 1 0";
 	}
 
 	public void cicloIndirecao() {
