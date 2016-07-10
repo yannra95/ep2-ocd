@@ -37,14 +37,6 @@ public class UC {
 	}	
 		//Para log
 	
-	/** 
-	20 bits para linhas de controle
-	1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
-	2 bits ou menos pro comando pra ula
-	1 bit pra dizer para a memoria se é read(1) ou write(0)
-	1 bit pra dizer se é indireção
-	00000000000000000000 0 00000000 00 0 0*/
-	
 	public ArrayList<Integer> recuperaEntrada(String operando, boolean indirecao) {
 		ArrayList<Integer> portas = new ArrayList<Integer>();
 		String reg = operando.substring(10);
@@ -90,29 +82,39 @@ public class UC {
 		}
 		return portas;
 	}
-
-	/* inst	reg		ind	op1				reg	ind	op2
-	 * 0000	 0	 	 1	000000000001	 0	 0	000000000000*/
 	
-	public ArrayList<String> geraPalavra(String instrucao, String operando1, String operando2) {
-		ArrayList<String> palavras = new ArrayList<String>();
+	/** 
+	20 bits para linhas de controle
+	1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
+	2 bits ou menos pro comando pra ula
+	1 bit pra dizer para a memoria se é read(1) ou write(0)
+	1 bit pra dizer se é indireção
+	00000000000000000000 0 00000000 00 0 0*/
+	
+	public ArrayList<Palavra> geraPalavra(String instrucao, String operando1, String operando2) {
 		
-		char ind1 = operando1.charAt(1); // op1 indireção
-		char ind2 = operando2.charAt(1); // op2 indireção
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
 		
-		if (ind1 == '1') {
-			recuperaEntrada(operando1, true);
-			recuperaEntrada(, indirecao)
+		boolean op1Ind = false, op2Ind = false;
+		
+		if (operando1.charAt(1) == '1') { // op1 indireção
+			op1Ind = true;
+		}
+		if (operando2.charAt(1) == '1') { // op2 indireção 
+			op2Ind = true;
+		}
+		
+		palavras.add();
+		
+		recuperaEntrada(operando1, op1Ind); // pega sinais OP1 
+		recuperaSaida(operando2,op2Ind); // pega sinais OP2
+		if(op1Ind){
 			
 		}
-		if (ind2 == '1') {
-			
+		if(op2Ind){
+			// MBR <- MAR
 		}
-		// "ADD BX,5"
-		recuperaEntrada(operando1, op1Ind); // pega BX
-		recuperaSaida(operando2); // pega 5
 
-		
 		switch(instrucao) {
 		case "0100": // MOV
 			break;
@@ -148,6 +150,15 @@ public class UC {
 		
 		//Para log
 		return palavras;
+	}
+	
+	public Palavra geraIndirecao(String operando, boolean um) {
+		
+		Palavra indirecao = null;
+		
+		
+		
+		return  indirecao;
 	}
 	
 	public String geraSinal(ArrayList<String>portas) {
