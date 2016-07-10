@@ -99,7 +99,6 @@ public class Processador {
 		//Se a porta da de entrada da memoria estiver aberta
 		if(registradores[12].isEntradaAberta()){
 			//Se for pra ler
-			if()
 		}
 		
 		//Se a porta de saida da memoria estiver aberta
