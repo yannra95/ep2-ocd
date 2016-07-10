@@ -72,12 +72,14 @@ public class UC {
 		if (operando2.charAt(1) == '1') { // op2 indireção 
 			op2Ind = true;
 		}
+
 //		palavraBase();
 //		palavraULA();
 //		palavraJump();
 //		palavraMOV();
 //		
 //		palavras.add();
+
 		geraSinal(recuperaEntrada(operando1, op1Ind)); // pega sinais OP1 
 		geraSinal(recuperaSaida(operando2,op2Ind)); // pega sinais OP2
 		if(op1Ind){
