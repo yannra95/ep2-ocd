@@ -7,9 +7,12 @@ public class UC {
 	boolean op2Reg;
 	boolean op2Ind;
 	String palavraControle;
+	String[] palavra;
 	
 	public UC(){
 	}
+	
+	palavra = new String
 	
 	/**
 	 * Prepara a instrução recebida para criar a palavra de controle

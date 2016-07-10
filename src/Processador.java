@@ -42,7 +42,7 @@ public class Processador {
 	public void interpretaSinal(){
 		abrePortas();
 		
-		//Se as portas da ULA não tiverem abertas, operação envolve apenas transporte de dados
+		//Se as portas da ULA nï¿½o tiverem abertas, operaï¿½ï¿½o envolve apenas transporte de dados
 		if(!barramentoDados[15]){
 			
 		}
@@ -64,7 +64,7 @@ public class Processador {
 	}
 	
 	/**
-	 * Contrução manual da palavra de controle representa a interpretação da UC
+	 * Contruï¿½ï¿½o manual da palavra de controle representa a interpretaï¿½ï¿½o da UC
 	 */
 	public void cicloBusca() {
 		
@@ -81,7 +81,7 @@ public class Processador {
 		palavraControle = "00001000000001000000 0 00000000 00 1 1";
 	}
 	
-	public void cicloIndireção(){
+	public void cicloIndirecao(){
 		
 	}
 
