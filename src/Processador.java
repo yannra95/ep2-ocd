@@ -24,20 +24,20 @@ public class Processador {
 
 	public Processador() {
 
-//		entrada	saida
-//		PC	0		1
-//		MAR	2		null
-//		MBR	3		4
-//		AX	5		6
-//		BX	7		8
-//		CX	9		10
-//		DX	11		12
-//		IR	13		14
-//		ULA	15		null
-//		X	16		null
-//		AC	null	17
-//		MEM	18		19
-		
+		// entrada saida
+		// PC 0 1
+		// MAR 2 null
+		// MBR 3 4
+		// AX 5 6
+		// BX 7 8
+		// CX 9 10
+		// DX 11 12
+		// IR 13 14
+		// ULA 15 null
+		// X 16 null
+		// AC null 17
+		// MEM 18 19
+
 		this.pc = new Registrador("0", 0, 1);
 		this.mar = new Registrador("", 2);
 		this.mbr = new Registrador("", 3, 4);
@@ -50,73 +50,97 @@ public class Processador {
 		this.x = new Registrador("", 16);
 		this.ac = new Registrador("", 17);
 		this.mem = new Registrador("", 18, 19);
-		this.registradores = new Registrador[]{pc, mar, mbr, ir, ax, bx, cx, dx};
+		this.registradores = new Registrador[] { pc, mar, mbr, ir, ax, bx, cx,
+				dx, ir, ula, x, ac, mem };
 		this.memoria = new Memoria();
 		this.palavraControle = "";
 
-		//Vetor de boolean que representa as portas e seus estados (aberta ou fechada)
-		this.barramentoDados = new boolean[21];
+		// Vetor de boolean que representa as portas e seus estados (aberta ou
+		// fechada)
+		this.barramentoDados = new boolean[20];
 	}
 
 	public void cicloInstrucao() {
-		
+
 		cicloBusca();
-		
+
 	}
-	
-	public void interpretaPalavra(){
-		abrePortas();
-		String aux = "";
+
+	public void interpretaPalavra() {
 		
-		//Se as portas da ULA n�o tiverem abertas, opera��o envolve apenas transporte de dados
-		if(!barramentoDados[15]){
-			for (int i = 0; i < barramentoDados.length; i++) {
+		abrePortas();
+
+		// Se as portas da ULA n�o tiverem abertas, opera��o envolve
+		// apenas transporte de dados
+		if (!registradores[9].isEntradaAberta()) {
+			copyReg2Reg();System.out.println("oi");
+		} else {
+
+		}
+
+	}
+
+	/**
+	 * Move o valor de um registrador para outro
+	 */
+	public void copyReg2Reg() {
+		String regOut = null;
+		for (int i = 0; i < registradores.length; i++)
+			if (registradores[i].isSaidaAberta())
+				regOut = registradores[i].getConteudo();
+
+		for (int i = 0; i < registradores.length; i++) {
+			if (registradores[i].isSaidaAberta())
+				registradores[i].setConteudo(regOut);
+		}
+	}
+
+	public void abrePortas() {
+		String portas = palavraControle.substring(0, 20);
+		for (int i = 0; i < barramentoDados.length; i++) {
+			if (portas.charAt(i) == '1') {
+				barramentoDados[i] = true;
 				for (int j = 0; j < registradores.length; j++) {
-					if(registradores[j].getPortaSaida() == i)
-						aux = registradores[j].getConteudo();
+					if (registradores[j].getPortaEntrada() == i)
+						registradores[j].setEntradaAberta(true);
+					else if (registradores[j].getPortaEntrada() == i)
+						registradores[j].setSaidaAberta(true);
 				}
 			}
-		}else{
-			
-		}
-		
-	}	
-	
-	
-	public void abrePortas(){
-		String sinal = palavraControle.substring(0, 20);
-		for (int i = 0; i < barramentoDados.length; i++) {
-			if(sinal.charAt(i) == '1')
-				barramentoDados[i] = true;
 		}
 	}
-	
-	public void fechaPortas(){
+
+	public void fechaPortas() {
 		for (int i = 0; i < barramentoDados.length; i++) {
 			barramentoDados[i] = false;
 		}
+		for (int i = 0; i < registradores.length; i++) {
+			registradores[i].setEntradaAberta(false);
+			registradores[i].setSaidaAberta(false);
+		}
 	}
-	
+
 	/**
-	 * Contru��o manual da palavra de controle representa a interpreta��o da UC
+	 * Contru��o manual da palavra de controle representa a
+	 * interpreta��o da UC
 	 */
 	public void cicloBusca() {
-		
-		//MAR <- PC 1,2
-		palavraControle = "01100000000000000000 0 00000000 00 0 0";
+
+		// MAR <- PC 1,2
+		palavraControle = "011000000000000000000 00000000 00 0 0";
 		interpretaPalavra();
-		//Memoria <- MAR 18
+		// Memoria <- MAR 18
 		palavraControle = "00000000000000000010 0 00000000 00 1 1";
-		
-		//MBR <- Memoria 4, 19
+
+		// MBR <- Memoria 4, 19
 		palavraControle = "00010000000000000001 0 00000000 00 1 1";
-		
-		//IR <- MBR 4,13
+
+		// IR <- MBR 4,13
 		palavraControle = "00001000000001000000 0 00000000 00 1 1";
 	}
-	
-	public void cicloIndirecao(){
-		
+
+	public void cicloIndirecao() {
+
 	}
 
 	public void cicloExecucao() {
