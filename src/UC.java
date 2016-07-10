@@ -104,7 +104,7 @@ public class UC {
 			op2Ind = true;
 		}
 		
-		palavras.add();
+		// palavras.add();
 		
 		recuperaEntrada(operando1, op1Ind); // pega sinais OP1 
 		recuperaSaida(operando2,op2Ind); // pega sinais OP2
@@ -161,9 +161,19 @@ public class UC {
 		return  indirecao;
 	}
 	
-	public String geraSinal(ArrayList<String>portas) {
-		String sinal;
+	public String geraSinal(ArrayList<Integer>portas) {
+		String sinal = "";
+		StringBuilder sb = new StringBuilder();
 		
+		for (int i = 0; i < 20; i++) {
+			if (portas.contains(i)) {
+				sb.append('1');
+			} else {
+				sb.append('0');
+			}
+		}
+		sinal = sb.toString();
+		System.out.println("sinal " + sinal);
 		return sinal;
 	}
 	
