@@ -6,26 +6,51 @@ public class Processador {
 	private Registrador pc;
 	private Registrador mbr;
 	private Registrador mar;
-	private Registrador ir;
 	private Registrador ax;
 	private Registrador bx;
 	private Registrador cx;
 	private Registrador dx;
+	private Registrador ir;
+	private Registrador ula;
+	private Registrador x;
+	private Registrador ac;
+	private Registrador mem;
+	private Registrador[] registradores;
 	public Memoria memoria;
 	public String palavraControle;
+	private UC uc;
 
 	private boolean[] barramentoDados;
 
 	public Processador() {
 
+//		entrada	saida
+//		PC	0		1
+//		MAR	2		null
+//		MBR	3		4
+//		AX	5		6
+//		BX	7		8
+//		CX	9		10
+//		DX	11		12
+//		IR	13		14
+//		ULA	15		null
+//		X	16		null
+//		AC	null	17
+//		MEM	18		19
+		
 		this.pc = new Registrador("0", 0, 1);
 		this.mar = new Registrador("", 2);
 		this.mbr = new Registrador("", 3, 4);
-		this.ir = new Registrador("", "", "", 13, 14);
 		this.ax = new Registrador("", 5, 6);
 		this.bx = new Registrador("", 7, 8);
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
+		this.ir = new Registrador("", "", "", 13, 14);
+		this.ula = new Registrador("", 15);
+		this.x = new Registrador("", 16);
+		this.ac = new Registrador("", 17);
+		this.mem = new Registrador("", 18, 19);
+		this.registradores = new Registrador[]{pc, mar, mbr, ir, ax, bx, cx, dx};
 		this.memoria = new Memoria();
 		this.palavraControle = "";
 
@@ -39,11 +64,19 @@ public class Processador {
 		
 	}
 	
-	public void interpretaSinal(){
+	public void interpretaPalavra(){
 		abrePortas();
+		String aux = "";
 		
 		//Se as portas da ULA n�o tiverem abertas, opera��o envolve apenas transporte de dados
 		if(!barramentoDados[15]){
+			for (int i = 0; i < barramentoDados.length; i++) {
+				for (int j = 0; j < registradores.length; j++) {
+					if(registradores[j].getPortaSaida() == i)
+						aux = registradores[j].getConteudo();
+				}
+			}
+		}else{
 			
 		}
 		
@@ -70,7 +103,7 @@ public class Processador {
 		
 		//MAR <- PC 1,2
 		palavraControle = "01100000000000000000 0 00000000 00 0 0";
-		interpretaSinal();
+		interpretaPalavra();
 		//Memoria <- MAR 18
 		palavraControle = "00000000000000000010 0 00000000 00 1 1";
 		

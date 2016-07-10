@@ -4,7 +4,6 @@ public class Registrador {
 	private String[] conteudoIR = new String[3];
 	private int portaEntrada;
 	private int portaSaida;
-	private String endereco;
 	
 	public Registrador(String conteudo, int portaEntrada, int portaSaida) {
 		super();
@@ -32,6 +31,7 @@ public class Registrador {
 		super();
 		this.conteudo = conteudo;
 		this.portaEntrada = portaEntrada;
+		this.portaSaida = -1;
 	}
 	
 	
@@ -48,12 +48,6 @@ public class Registrador {
 	//Não possui set pois só pode ser definido na instância do objeto
 	public int getPortaSaida() {
 		return portaSaida;
-	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
 	}
 
 	public String[] getConteudoIR() {

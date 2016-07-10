@@ -12,8 +12,6 @@ public class UC {
 	public UC(){
 	}
 	
-	palavra = new String
-	
 	/**
 	 * Prepara a instrução recebida para criar a palavra de controle
 	 */
