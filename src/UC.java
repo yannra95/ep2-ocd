@@ -20,13 +20,34 @@ public class UC {
 	 */
 	
 	public Palavra[] lerInstrucao(Memoria memoria, int endereco) {
-		String instrucao = memoria.get(endereco); // instrução a ser lida
+		String opcode = memoria.get(endereco); // instrução a ser lida
 		
-		String linhasControle = instrucao.substring(0, 20);
-		String condJump = instrucao.substring(20,21);
-		String comandoUla = instrucao.substring(21,23);
-		String readWrite = instrucao.substring(23,24);
-		String indirecao = instrucao.substring(24,25);
+		String instrucao = opcode.substring(0,4);
+		String operando1 = opcode.substring(4,18);
+		String operando2 = opcode.substring(18);
+		
+		/** 
+		20 bits para linhas de controle
+		1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
+		2 bits ou menos pro commando pra ula
+		1 bit pra dizer para a memoria se é read(1) ou write(0)
+		1 bit pra dizer se é indireção
+		00000000000000000000 0 00000000 00 0 0*/
+		
+		
+		if (operando1.charAt(0) == '1') { // se há uma indireção no op1
+			
+			
+		}
+		if (operando2.charAt(0) == '1') { // se há uma indireção no op2
+			
+		}
+		
+		String linhasControle = opcode.substring(0, 20);
+		String condJump = opcode.substring(20,21);
+		String comandoUla = opcode.substring(21,23);
+		String readWrite = opcode.substring(23,24);
+		String indirecao = opcode.substring(24,25);
 		
 		Palavra[] palavrasDeControle;
 		
