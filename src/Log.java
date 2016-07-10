@@ -18,7 +18,7 @@ public class Log {
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		
-		String inicial = "Início da Execução: "+ dateFormat.format(cal.getTime()) +"\n";
+		String inicial = "Log:\nInício da Execução - "+ dateFormat.format(cal.getTime()) +"\n";
 		
 		historico.add(inicial);
 		
