@@ -14,6 +14,8 @@ public class Assembler {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private DefaultTableModel model;
+	private DefaultTableModel model2;
+	private JTable table2;
 	private Processador processador;
 	private JTextArea textAreaLog;
 	
@@ -225,13 +227,27 @@ public class Assembler {
 
 		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
 				"dx", "==0", "<>0", ">=0", ">0", "<=0", "<0" };
-		String[][] data = { {} };
 
 		model = new DefaultTableModel();
 		table = new JTable(model);
 		model.setColumnIdentifiers(columnNames);
 		table.setEnabled(false);
 		scrollPane.setViewportView(table);
+		
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(354, 300, 556, 269);
+		frame.getContentPane().add(scrollPane);
+
+		String[] columnNamesPortas = { "0", "1", "2", "3", "4", "5", "6",
+				"7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19" };
+
+		model2 = new DefaultTableModel();
+		table2 = new JTable(model2);
+		model2.setColumnIdentifiers(columnNamesPortas);
+		table2.setEnabled(false);
+		scrollPane.setViewportView(table2);
+		
 
 		JTextArea textArea = new JTextArea();
 		
@@ -273,10 +289,7 @@ public class Assembler {
 	
 	public void atualizaTabela(){
 		String[] data = new String[14];
-		
-//		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
-//				"dx", "==0", "<>0", ">=0", ">0", "<=0", "<0" };
-		
+				
 		data[0] = processador.getPc().getConteudo();
 		data[1] = processador.getMar().getConteudo();
 		data[2] = processador.getMbr().getConteudo();
@@ -300,6 +313,47 @@ public class Assembler {
 		
 		model.addRow(data);
 		model.fireTableDataChanged();
+		
+	}
+	
+	public void atualizaTabelaPortas(){
+		String[] data = new String[19];
+		
+		data[0] = String.valueOf(processador.getPc().isEntradaAberta());
+		data[1] = String.valueOf(processador.getPc().isSaidaAberta());
+		
+		data[2] = String.valueOf(processador.getMar().isEntradaAberta());
+		
+		data[3] = String.valueOf(processador.getMbr().isEntradaAberta());
+		data[4] = String.valueOf(processador.getMbr().isSaidaAberta());
+		
+		data[5] = String.valueOf(processador.getAx().isEntradaAberta());
+		data[6] = String.valueOf(processador.getAx().isSaidaAberta());
+		
+		data[7] = String.valueOf(processador.getBx().isEntradaAberta());
+		data[8] = String.valueOf(processador.getBx().isSaidaAberta());
+		
+		data[9] = String.valueOf(processador.getCx().isEntradaAberta());
+		data[10] = String.valueOf(processador.getCx().isSaidaAberta());
+		
+		data[11] = String.valueOf(processador.getDx().isEntradaAberta());
+		data[12] = String.valueOf(processador.getDx().isSaidaAberta());
+		
+		data[13] = String.valueOf(processador.getIr().isEntradaAberta());
+		data[14] = String.valueOf(processador.getIr().isSaidaAberta());
+		
+		//data[15] = String.valueOf(processador.getULA().isEntradaAberta());
+		
+		//data[16] = String.valueOf(processador.getX().isEntradaAberta());
+		
+		//data[17] = String.valueOf(processador.getAc().isSaidaAberta());
+		
+		//data[18] = String.valueOf(processador.getMemoria().isEntradaAberta());
+		//data[19] = String.valueOf(processador.getMemoria().isSaidaAberta());
+		
+		
+		model2.addRow(data);
+		model2.fireTableDataChanged();
 		
 	}
 
