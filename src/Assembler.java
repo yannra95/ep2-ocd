@@ -16,6 +16,8 @@ public class Assembler {
 	private DefaultTableModel model;
 	private Processador processador;
 	private static JTextArea textAreaLog;
+	
+	private Assembler mySelf;
 
 	/**
 	 * Launch the application.
@@ -24,7 +26,6 @@ public class Assembler {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Log.inicializaLog();
 					Assembler window = new Assembler();
 					// window.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					window.frame.setVisible(true);
@@ -39,7 +40,8 @@ public class Assembler {
 	 * Create the application.
 	 */
 	public Assembler() {
-		processador = new Processador();
+		processador = new Processador(this);
+		mySelf = this;
 		initialize();
 	}
 	
@@ -246,7 +248,6 @@ public class Assembler {
 		
 		textAreaLog = new JTextArea();
 		textAreaLog.setEditable(false);
-		textAreaLog.setText(Log.getLastFrom());
 		textAreaLog.setBounds(10, 300, 334, 269);
 		frame.getContentPane().add(textAreaLog);
 
@@ -264,6 +265,7 @@ public class Assembler {
 					// Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
 					processador.memoria.printMemoria();
+					Log.inicializaLog(mySelf);
 				}
 			}
 		});

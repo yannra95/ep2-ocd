@@ -19,10 +19,13 @@ public class Processador {
 	public Memoria memoria;
 	public String palavraControle;
 	private UC uc;
+	private Assembler assembler;
 
 	private boolean[] barramentoDados;
 
-	public Processador() {
+	public Processador(Assembler assembler) {
+		
+		this.assembler = assembler;
 
 		// entrada saida
 		// PC 0 1
@@ -52,7 +55,7 @@ public class Processador {
 		this.mem = new Registrador("", 18, 19);
 		this.registradores = new Registrador[] { pc, mar, mbr, ir, ax, bx, cx,
 				dx, ir, ula, x, ac, mem };
-		this.memoria = new Memoria();
+		this.memoria = new Memoria(assembler);
 		this.palavraControle = "";
 
 		// Vetor de boolean que representa as portas e seus estados (aberta ou

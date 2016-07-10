@@ -5,7 +5,10 @@ import java.util.Map;
 
 public class Memoria extends HashMap<Integer, String> {
 	
-	public Memoria(){
+	private Assembler assembler;
+	
+	public Memoria(Assembler assembler){
+		this.assembler = assembler;
 	}
 	
 	public void printMemoria() {

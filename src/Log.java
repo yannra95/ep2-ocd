@@ -10,7 +10,10 @@ public class Log {
 	private static ArrayList<String> historico;
 	private static String timeStampLog;
 	
-	public static void inicializaLog(){
+	private static Assembler assembler;
+	
+	public static void inicializaLog(Assembler a){
+		assembler = a;
 		historico = new ArrayList<String>();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Calendar cal = Calendar.getInstance();

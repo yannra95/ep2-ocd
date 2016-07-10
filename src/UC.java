@@ -8,8 +8,10 @@ public class UC {
 	boolean op2Ind;
 	String palavraControle;
 	String[] palavra;
+	private Assembler assembler;
 	
-	public UC(){
+	public UC(Assembler assembler){
+		this.assembler = assembler;
 	}
 	
 	/*
