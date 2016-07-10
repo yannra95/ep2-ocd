@@ -52,10 +52,13 @@ public class Log {
 	
 	public static void save(){
 		
+		String identificadorLog = timeStampLog.replace(':', '-');
+		identificadorLog = identificadorLog.replace('/', '-');
+		
 		BufferedWriter writer = null;
 		
 		try{
-			FileWriter f = new FileWriter("log("+ timeStampLog +").txt");
+			FileWriter f = new FileWriter("log("+ identificadorLog +").txt");
 			writer = new BufferedWriter(f);
 			
 			for(String s: historico){
