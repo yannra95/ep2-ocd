@@ -15,7 +15,7 @@ public class Assembler {
 	private JTable table;
 	private DefaultTableModel model;
 	private Processador processador;
-	private static JTextArea textAreaLog;
+	private JTextArea textAreaLog;
 	
 	private Assembler mySelf;
 
@@ -43,18 +43,6 @@ public class Assembler {
 		processador = new Processador(this);
 		mySelf = this;
 		initialize();
-	}
-	
-	public static void atualizaTextAreLog(String[] s){
-		
-		textAreaLog.setText("");
-		for(String str : s){
-			textAreaLog.append(str);
-		}
-	}
-	
-	public static void atualizaTextAreLog(String s){
-		textAreaLog.append(s);
 	}
 
 	public String completaZerosEsquerda(String s){
@@ -236,11 +224,12 @@ public class Assembler {
 		frame.getContentPane().add(scrollPane);
 
 		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
-				"dx", "==0", "overf", "null" };
-		Object[][] data = { {} };
+				"dx", "==0", "<>0", ">=0", ">0", "<=0", "<0" };
+		String[][] data = { {} };
 
-		model = new DefaultTableModel(data, columnNames);
+		model = new DefaultTableModel();
 		table = new JTable(model);
+		model.setColumnIdentifiers(columnNames);
 		table.setEnabled(false);
 		scrollPane.setViewportView(table);
 
@@ -256,6 +245,7 @@ public class Assembler {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_F9) {
+					Log.inicializaLog(mySelf);
 
 					// Cria um vetor onde cada posição é uma linha do bloco de
 					// codigo
@@ -265,7 +255,6 @@ public class Assembler {
 					// Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
 					processador.memoria.printMemoria();
-					Log.inicializaLog(mySelf);
 				}
 			}
 		});
@@ -280,5 +269,53 @@ public class Assembler {
 		});
 		textArea.setBounds(10, 11, 334, 269);
 		frame.getContentPane().add(textArea);
+	}
+	
+	public void atualizaTabela(){
+		String[] data = new String[14];
+		
+//		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
+//				"dx", "==0", "<>0", ">=0", ">0", "<=0", "<0" };
+		
+		data[0] = processador.getPc().getConteudo();
+		data[1] = processador.getMar().getConteudo();
+		data[2] = processador.getMbr().getConteudo();
+		data[3] = processador.getIr().getConteudo();
+		data[4] = processador.getAx().getConteudo();
+		data[5] = processador.getBx().getConteudo();
+		data[6] = processador.getCx().getConteudo();
+		data[7] = processador.getDx().getConteudo();
+		//==0
+		data[8] = String.valueOf(processador.getfIgual().isFlagValue());
+		//<>0
+		data[9] = String.valueOf(processador.getfDiferente().isFlagValue());
+		//>=0
+		data[10] = String.valueOf(processador.getfMaiorOuIgual().isFlagValue());
+		//>0
+		data[11] = String.valueOf(processador.getfMaior().isFlagValue());
+		//<=0
+		data[12] = String.valueOf(processador.getfMenorOuIgual().isFlagValue());
+		//<0
+		data[13] = String.valueOf(processador.getfMenor().isFlagValue());
+		
+		model.addRow(data);
+		model.fireTableDataChanged();
+		
+	}
+
+	public JTextArea getTextAreaLog() {
+		return textAreaLog;
+	}
+	
+	public void atualizaTextAreLog(String[] s){
+		
+		textAreaLog.setText("");
+		for(String str : s){
+			textAreaLog.append(str);
+		}
+	}
+	
+	public void atualizaTextAreLog(String s){
+		textAreaLog.append(s);
 	}
 }

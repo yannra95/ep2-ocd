@@ -24,6 +24,8 @@ public class Log {
 		
 		DateFormat timeStampFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
 		timeStampLog = timeStampFormat.format(cal.getTime());
+		
+		assembler.atualizaTextAreLog(inicial);
 	}
 	
 	
@@ -34,6 +36,7 @@ public class Log {
 		adicional = dateFormat.format(cal.getTime()) + " - \t" + s;
 		
 		historico.add(adicional);
+		assembler.atualizaTextAreLog(adicional);
 	}
 	
 	public static String[] getAllFrom(){
@@ -49,10 +52,13 @@ public class Log {
 	
 	public static void save(){
 		
+		String identificadorLog = timeStampLog.replace(':', '-');
+		identificadorLog = identificadorLog.replace('/', '-');
+		
 		BufferedWriter writer = null;
 		
 		try{
-			FileWriter f = new FileWriter("log("+ timeStampLog +").txt");
+			FileWriter f = new FileWriter("log("+ identificadorLog +").txt");
 			writer = new BufferedWriter(f);
 			
 			for(String s: historico){

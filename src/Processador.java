@@ -128,10 +128,15 @@ public class Processador {
 				System.out.println("Abriu: "+i);
 				barramentoDados[i] = true;
 				for (int j = 0; j < registradores.length; j++) {
-					if (registradores[j].getPortaEntrada() == i)
-						registradores[j].setEntradaAberta(true);
-					else if (registradores[j].getPortaEntrada() == i)
-						registradores[j].setSaidaAberta(true);
+					
+//					System.out.println("checkout: "+i+"/"+registradores[j].getPortaSaida());
+					
+					if (registradores[j].getPortaEntrada() == i){
+						registradores[j].setEntradaAberta(true);	System.out.println("checkout1: "+registradores[j].getPortaEntrada());
+					}
+					if (registradores[j].getPortaSaida() == i){
+						registradores[j].setSaidaAberta(true);		System.out.println("checkout2: "+registradores[j].getPortaSaida());
+					}
 				}
 			}
 		}
@@ -249,4 +254,70 @@ public class Processador {
 	public void setIr(Registrador ir) {
 		this.ir = ir;
 	}
+
+	public Flag getfIgual() {
+		return fIgual;
+	}
+
+	public void setfIgual(Flag fIgual) {
+		this.fIgual = fIgual;
+	}
+
+	public Flag getfDiferente() {
+		return fDiferente;
+	}
+
+	public void setfDiferente(Flag fDiferente) {
+		this.fDiferente = fDiferente;
+	}
+
+	public Flag getfMaiorOuIgual() {
+		return fMaiorOuIgual;
+	}
+
+	public void setfMaiorOuIgual(Flag fMaiorOuIgual) {
+		this.fMaiorOuIgual = fMaiorOuIgual;
+	}
+
+	public Flag getfMaior() {
+		return fMaior;
+	}
+
+	public void setfMaior(Flag fMaior) {
+		this.fMaior = fMaior;
+	}
+
+	public Flag getfMenorOuIgual() {
+		return fMenorOuIgual;
+	}
+
+	public void setfMenorOuIgual(Flag fMenorOuIgual) {
+		this.fMenorOuIgual = fMenorOuIgual;
+	}
+
+	public Flag getfMenor() {
+		return fMenor;
+	}
+
+	public void setfMenor(Flag fMenor) {
+		this.fMenor = fMenor;
+	}
+
+	public Flag[] getFlags() {
+		return flags;
+	}
+
+	public void setFlags(Flag[] flags) {
+		this.flags = flags;
+	}
+
+	public Assembler getAssembler() {
+		return assembler;
+	}
+
+	public void setAssembler(Assembler assembler) {
+		this.assembler = assembler;
+	}
+	
+	
 }

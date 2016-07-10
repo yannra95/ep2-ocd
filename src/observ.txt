@@ -1,1 +1,0 @@
-Conferir o encoding (UTF-8) 
