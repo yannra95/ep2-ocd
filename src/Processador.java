@@ -210,11 +210,15 @@ public class Processador {
 		
 		// IR <- MBR 4,13
 		palavraControle = "000010000000010000000000000000000";
+		Log.addTo("IR <- MBR 4,13: "+ palavraControle);
 		interpretaPalavra();
+		assembler.atualizaTabela();
 
 		// X (com inc) <- PC 1, 16
 		palavraControle = "010000000000000010000000000010100";
+		Log.addTo("X (com inc) <- PC 1, 16: "+ palavraControle);
 		interpretaPalavra();
+		assembler.atualizaTabela();
 		System.out.println("AC: " + registradores[11].getConteudo());
 		// PC <- AC 0, 17
 		palavraControle = "10000000000000000100 00000000 000 0 0";
