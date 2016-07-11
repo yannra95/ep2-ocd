@@ -95,7 +95,7 @@ public class Processador {
 			}
 			// Se for pra escrever
 			else {
-					
+//				registradores[12].setConteudo(conteudo);
 			}
 		} else {
 
@@ -139,7 +139,6 @@ public class Processador {
 		for (int i = 0; i < registradores.length; i++)
 			// Exceção: se for o registrador AC
 			if (i == 11) {
-				System.out.println("oi");
 				if (registradores[i].isEntradaAberta())
 					regOut = registradores[i].getConteudo();
 			} else {
@@ -217,22 +216,26 @@ public class Processador {
 		Log.addTo("IR <- MBR 4,13: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
+		
+		System.out.println("ir: "+registradores[0].getConteudo());
 
 		// X (com inc) <- PC 1, 16
 		palavraControle = "010000000000000010000000000010100";
 		Log.addTo("X (com inc) <- PC 1, 16: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
-		System.out.println("AC: " + registradores[11].getConteudo());
 		// PC <- AC 0, 17
 		palavraControle = "100000000000000001000000000000000";
 		interpretaPalavra();
-		System.out.println("PC: " + registradores[0].getConteudo());
 
 	}
 
 	public void cicloExecucao() {
 		ArrayList<Palavra> palavras = uc.lerInstrucao(registradores[0].getConteudoIR());
+		
+		for (int i = 0; i < palavras.size(); i++) {
+			interpretaPalavra();
+		}
 	}
 
 	/**

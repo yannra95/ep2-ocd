@@ -6,7 +6,6 @@ public class ULA {
 		Integer ret = 0;
 		String retorno = "";
 
-		System.out.println("operacao: "+operacao);
 		
 		switch (operacao) {
 		
