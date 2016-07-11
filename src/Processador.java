@@ -198,12 +198,10 @@ public class Processador {
 		palavraControle = "000100000000000000010000000000010";
 		Log.addTo("MBR <- Memoria 4, 19: "+ palavraControle);
 		interpretaPalavra();
-<<<<<<< HEAD
 		assembler.atualizaTabela();
 
 		System.out.println("MBR: " + registradores[2].getConteudo());
-=======
->>>>>>> origin/master
+
 		
 		// IR <- MBR 4,13
 		palavraControle = "00001000000001000000 00000000 000 0 0";
