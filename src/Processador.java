@@ -218,12 +218,8 @@ public class Processador {
 		palavraControle = "010000000000000010000000000010100";
 		Log.addTo("X (com inc) <- PC 1, 16: "+ palavraControle);
 		interpretaPalavra();
-<<<<<<< HEAD
 		assembler.atualizaTabela();
 		System.out.println("AC: " + registradores[11].getConteudo());
-=======
-		
->>>>>>> origin/master
 		// PC <- AC 0, 17
 		palavraControle = "100000000000000001000000000000000";
 		interpretaPalavra();
