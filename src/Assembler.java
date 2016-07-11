@@ -299,17 +299,17 @@ public class Assembler {
 		data[6] = processador.getCx().getConteudo();
 		data[7] = processador.getDx().getConteudo();
 		//==0
-		data[8] = String.valueOf(processador.getfIgual().isFlagValue());
+		data[8] = String.valueOf(processador.getfIgual().isFlagValue()? 1 : 0);
 		//<>0
-		data[9] = String.valueOf(processador.getfDiferente().isFlagValue());
+		data[9] = String.valueOf(processador.getfDiferente().isFlagValue()? 1 : 0);
 		//>=0
-		data[10] = String.valueOf(processador.getfMaiorOuIgual().isFlagValue());
+		data[10] = String.valueOf(processador.getfMaiorOuIgual().isFlagValue()? 1 : 0);
 		//>0
-		data[11] = String.valueOf(processador.getfMaior().isFlagValue());
+		data[11] = String.valueOf(processador.getfMaior().isFlagValue()? 1 : 0);
 		//<=0
-		data[12] = String.valueOf(processador.getfMenorOuIgual().isFlagValue());
+		data[12] = String.valueOf(processador.getfMenorOuIgual().isFlagValue()? 1 : 0);
 		//<0
-		data[13] = String.valueOf(processador.getfMenor().isFlagValue());
+		data[13] = String.valueOf(processador.getfMenor().isFlagValue()? 1 : 0);
 		
 		model.addRow(data);
 		model.fireTableDataChanged();
@@ -319,28 +319,28 @@ public class Assembler {
 	public void atualizaTabelaPortas(){
 		String[] data = new String[19];
 		
-		data[0] = String.valueOf(processador.getPc().isEntradaAberta());
-		data[1] = String.valueOf(processador.getPc().isSaidaAberta());
+		data[0] = String.valueOf(processador.getPc().isEntradaAberta()? 1 : 0);
+		data[1] = String.valueOf(processador.getPc().isSaidaAberta()? 1 : 0);
 		
-		data[2] = String.valueOf(processador.getMar().isEntradaAberta());
+		data[2] = String.valueOf(processador.getMar().isEntradaAberta()? 1 : 0);
 		
-		data[3] = String.valueOf(processador.getMbr().isEntradaAberta());
-		data[4] = String.valueOf(processador.getMbr().isSaidaAberta());
+		data[3] = String.valueOf(processador.getMbr().isEntradaAberta()? 1 : 0);
+		data[4] = String.valueOf(processador.getMbr().isSaidaAberta()? 1 : 0);
 		
-		data[5] = String.valueOf(processador.getAx().isEntradaAberta());
-		data[6] = String.valueOf(processador.getAx().isSaidaAberta());
+		data[5] = String.valueOf(processador.getAx().isEntradaAberta()? 1 : 0);
+		data[6] = String.valueOf(processador.getAx().isSaidaAberta()? 1 : 0);
 		
-		data[7] = String.valueOf(processador.getBx().isEntradaAberta());
-		data[8] = String.valueOf(processador.getBx().isSaidaAberta());
+		data[7] = String.valueOf(processador.getBx().isEntradaAberta()? 1 : 0);
+		data[8] = String.valueOf(processador.getBx().isSaidaAberta()? 1 : 0);
 		
-		data[9] = String.valueOf(processador.getCx().isEntradaAberta());
-		data[10] = String.valueOf(processador.getCx().isSaidaAberta());
+		data[9] = String.valueOf(processador.getCx().isEntradaAberta()? 1 : 0);
+		data[10] = String.valueOf(processador.getCx().isSaidaAberta()? 1 : 0);
 		
-		data[11] = String.valueOf(processador.getDx().isEntradaAberta());
-		data[12] = String.valueOf(processador.getDx().isSaidaAberta());
+		data[11] = String.valueOf(processador.getDx().isEntradaAberta()? 1 : 0);
+		data[12] = String.valueOf(processador.getDx().isSaidaAberta()? 1 : 0);
 		
-		data[13] = String.valueOf(processador.getIr().isEntradaAberta());
-		data[14] = String.valueOf(processador.getIr().isSaidaAberta());
+		data[13] = String.valueOf(processador.getIr().isEntradaAberta()? 1 : 0);
+		data[14] = String.valueOf(processador.getIr().isSaidaAberta()? 1 : 0);
 		
 		//data[15] = String.valueOf(processador.getULA().isEntradaAberta());
 		
@@ -365,7 +365,7 @@ public class Assembler {
 		
 		textAreaLog.setText("");
 		for(String str : s){
-			textAreaLog.append(str);
+			textAreaLog.append(str + "\n");
 		}
 	}
 	
