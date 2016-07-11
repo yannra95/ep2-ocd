@@ -12,19 +12,23 @@ public class ULA {
 		
 		//add
 		case "001":
-			
+			ret = Integer.parseInt(op1) + Integer.parseInt(op2);
+			retorno = ret.toString();
 			break;
 		//sub
 		case "010":
-			
+			ret = Integer.parseInt(op1) - Integer.parseInt(op2);
+			retorno = ret.toString();
 			break;
 		//mul
 		case "011":
-			
+			ret = Integer.parseInt(op1) * Integer.parseInt(op2);
+			retorno = ret.toString();
 			break;
 		//div
 		case "100":
-			
+			ret = Integer.parseInt(op1) / Integer.parseInt(op2);
+			retorno = ret.toString();
 			break;
 		//inc
 		case "101":
