@@ -53,7 +53,9 @@ public class UC {
 		
 		//ADD - SUB - MUL - DIV
 		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){ 
-			palavras.addAll(palavraULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // realiza a operação da ULA
+			palavras.addAll(palavraBase(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // indireções
+//			palavras.addAll(palavraULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg, ins)); // realiza a operação da ULA
+
 			
 		// JUMP
 		} else if (ins == "1001"){

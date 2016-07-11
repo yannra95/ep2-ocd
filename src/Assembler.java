@@ -313,6 +313,10 @@ public class Assembler {
 					// Coloca na memoria as linhas de codigo digitadas
 					addLinhasMemoria(linhasComando, 0);
 					processador.memoria.printMemoria();
+					
+					//Bloqueia o JTextArea para não ser possível
+					//alterar o código
+					textArea.setEditable(false);
 				}
 			}
 		});
