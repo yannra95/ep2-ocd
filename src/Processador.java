@@ -178,8 +178,8 @@ public class Processador {
 	}
 
 	/**
-	 * Contru��o manual da palavra de controle representa a
-	 * interpreta��o da UC
+	 * Contrucaoo manual da palavra de controle representa a
+	 * interpretacao da UC
 	 */
 	public void cicloBusca() {
 
