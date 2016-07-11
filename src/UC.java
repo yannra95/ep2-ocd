@@ -25,14 +25,29 @@ public class UC {
 		String opcode = memoria.get(endereco); // instrução a ser lida
 		//Para log
 		
+		boolean op1Ind = false, op2Ind = false, op1Reg = false, op2Reg = false;
+		
+		if (operando1.charAt(0) == '1') { // op1 registrador
+			op1Reg = true;
+		}
+		if (operando2.charAt(0) == '1') { // op2 registrador 
+			op2Reg = true;
+		}
+		if (operando1.charAt(1) == '1') { // op1 indireção
+			op1Ind = true;
+		}
+		if (operando2.charAt(1) == '1') { // op2 indireção 
+			op2Ind = true;
+		}
+		
 		String ins = opcode.substring(0,4);
 		String operando1 = opcode.substring(4,18);
 		String operando2 = opcode.substring(18);
 		
 		if (ins == "0100") {
 		// MOV 
-			palavras.add(palavraBase());
-			palavras.add(palavraBase());
+			palavras.addAll(palavraBase(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // indireções
+			palavras.addAll(palavraMOV(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg));
 		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){  
 		//ADD - SUB - MUL - DIV
 		} else if (ins == "1001"){
@@ -40,45 +55,24 @@ public class UC {
 		} else {
 		// OUTROS JUMPS
 		}
-		
 
-		palavraBase(ins, operando1, operando2);
 		
 	}	
-	
-	private Palavra palavraBase() {
-		
-		return null;
-	}
-	
-	public ArrayList<Palavra> palavraBase(String instrucao, String operando1, String operando2) {
-		
-		String linhasControle, endJump, comandoUla, readWrite, indirecao;
+
+	public ArrayList<Palavra> palavraBase(String instrucao, String operando1, String operando2, 
+			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
+		//String linhasControle, endJump, comandoUla, readWrite, indirecao;
 		
 		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
 		
-		boolean op1Ind = false, op2Ind = false;
-		
-		if (operando1.charAt(1) == '1') { // op1 indireção
-			op1Ind = true;
+		if (op1Ind){ // indireção registrador ou memória
+			palavras.add(indLeitura(operando1, op1Reg));
+			palavras.add(indEscrita(operando1));
+		} 	
+		if(op2Ind){ // indireção registrador ou memória
+			palavras.add(indLeitura(operando2, op2Reg));
+			palavras.add(indEscrita(operando2));
 		}
-		if (operando2.charAt(1) == '1') { // op2 indireção 
-			op2Ind = true;
-		}		
-
-		//geraSinal(recuperaEntrada(operando1, op1Ind)); // pega sinais OP1 
-		//geraSinal(recuperaSaida(operando2,op2Ind)); // pega sinais OP2
-		if(op1Ind){
-			indLeitura(operando1, true); // palavr
-			indEscrita(operando1);
-		}
-		if(op2Ind){
-			indLeitura(operando2, false);
-			indEscrita(operando2);
-		}
-
-		
-		Palavra palavra1 = new Palavra(operando2, operando2, operando2, operando2, "1");
 		
 		//Para log
 		return palavras;
@@ -93,11 +87,15 @@ public class UC {
 	00000000000000000000 00000000 000 0 0*/
 	
 	// Indireção na leitura
-	public Palavra indLeitura(String operando, boolean primeiroOp) { // determina o operando para saber se é entrada ou saída
+	public Palavra indLeitura(String operando, boolean reg) {
 		ArrayList<Integer> portas = new ArrayList<Integer>();
 		
-		portas.add(retornaPortaSaida("MAR")); // MBR <- MAR
-		portas.add(retornaPortaEntrada("MBR"));
+		if (reg) {
+			portas.addAll((recuperaSaida(operando, false)));
+		} else {
+			portas.add(retornaPortaSaida("MEM"));
+		}
+		portas.add(retornaPortaEntrada("MAR"));
 		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "1", "1"); // read
 		
 		return palavra;
@@ -107,9 +105,34 @@ public class UC {
 	public Palavra indEscrita(String operando) { // determina o operando para saber se é entrada ou saída
 		ArrayList<Integer> portas = new ArrayList<Integer>();
 		
-		portas.addAll((recuperaEntrada(operando, false))); // Registrador <- MBR
-		portas.add(retornaPortaSaida("MBR"));
+		portas.add(retornaPortaSaida("MEM"));
+		portas.add(retornaPortaEntrada("MBR"));
 		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "1"); // write
+		
+		return palavra;
+	}
+	// Leitura direta
+	public Palavra dirLeitura(String operando, boolean reg) {
+		ArrayList<Integer> portas = new ArrayList<Integer>();
+		
+		if (reg) {
+			portas.addAll((recuperaSaida(operando, false)));
+		} else {
+			portas.add(retornaPortaSaida("IR"));
+		}
+		portas.add(retornaPortaEntrada("MAR"));
+		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "1", "0"); // read
+		
+		return palavra;
+	}
+
+	// Escrita direta
+	public Palavra dirEscrita(String operando) { // determina o operando para saber se é entrada ou saída
+		ArrayList<Integer> portas = new ArrayList<Integer>();
+		
+		portas.add(retornaPortaSaida("MEM"));
+		portas.add(retornaPortaEntrada("MBR"));
+		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "0"); // write
 		
 		return palavra;
 	}
@@ -119,9 +142,12 @@ public class UC {
 		
 	}
 
-	private void palavraMOV() {
-		// TODO Auto-generated method stub
+	private ArrayList<Palavra> palavraMOV(String ins, String operando1, String operando2, 
+			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
 		
+		
+		
+		return null;
 	}
 
 	private void palavraULA() {
