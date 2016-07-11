@@ -370,6 +370,6 @@ public class Assembler {
 	}
 	
 	public void atualizaTextAreLog(String s){
-		textAreaLog.append(s);
+		textAreaLog.append(s + "\n");
 	}
 }
