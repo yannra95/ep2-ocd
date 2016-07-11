@@ -110,8 +110,10 @@ public class Processador {
 			}
 		}
 		
+		copyReg2Reg();
+		
 		//Se a porta de saida da memoria estiver aberta
-		if (registradores[12].isSaidaAberta()) {
+		if (registradores[12].isSaidaAberta()) {System.out.println("teste");
 			//Se for pra ler
 			if(palavraControle.charAt(31) == '1'){
 				//Coloca no MBR o que a memoria retornar
@@ -123,6 +125,7 @@ public class Processador {
 			}			
 		}
 		
+		
 		// Se as portas da ULA n�o tiverem abertas, opera��o envolve
 		// apenas transporte de dados
 		if (!registradores[9].isEntradaAberta()) {
@@ -130,6 +133,8 @@ public class Processador {
 		} else {
 
 		}
+		
+		fechaPortas();
 	}
 
 	/**
@@ -141,12 +146,9 @@ public class Processador {
 			if (registradores[i].isSaidaAberta())
 				regOut = registradores[i].getConteudo();
 		
-		System.out.println("regOut: "+regOut);
-		
 		for (int i = 0; i < registradores.length; i++) {
 			if (registradores[i].isEntradaAberta()){
 				registradores[i].setConteudo(regOut);
-				System.out.println(regOut+"/"+registradores[i].getConteudo()+"i: "+i);
 			}
 		}
 	}
@@ -189,8 +191,12 @@ public class Processador {
 		// MAR <- PC 1,2
 		palavraControle = "01100000000000000000 0 00000000 00 0 0";
 		interpretaPalavra();
+
 		// Memoria <- MAR 18
 		palavraControle = "00000000000000000010 0 00000000 00 1 0";
+		interpretaPalavra();
+		
+		System.out.println("MBR: "+registradores[2].getConteudo());
 
 		// MBR <- Memoria 4, 19
 		palavraControle = "00010000000000000001 0 00000000 00 1 0";
