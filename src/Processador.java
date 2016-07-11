@@ -170,6 +170,7 @@ public class Processador {
 				}
 			}
 		}
+		assembler.atualizaTabelaPortas();
 	}
 
 	public void fechaPortas() {
@@ -180,6 +181,7 @@ public class Processador {
 			registradores[i].setEntradaAberta(false);
 			registradores[i].setSaidaAberta(false);
 		}
+		assembler.atualizaTabelaPortas();
 	}
 
 	/**
@@ -193,16 +195,24 @@ public class Processador {
 		 * 20 27 28 30 31 32
 		 */
 
+		Log.addTo("Ciclo de Busca");
+		
 		// MAR <- PC 1,2
 		palavraControle = "011000000000000000000000000000000";
+		Log.addTo("MAR <- PC 1,2: "+ palavraControle);
+		assembler.atualizaTabela();
 		interpretaPalavra();
 
 		// Memoria <- MAR 18
 		palavraControle = "000000000000000000100000000000010";
+		Log.addTo("Memoria <- MAR 18: "+ palavraControle);
+		assembler.atualizaTabela();
 		interpretaPalavra();
 
 		// MBR <- Memoria 4, 19
 		palavraControle = "000100000000000000010000000000010";
+		Log.addTo("MBR <- Memoria 4, 19: "+ palavraControle);
+		assembler.atualizaTabela();
 		interpretaPalavra();
 
 		System.out.println("MBR: " + registradores[2].getConteudo());
