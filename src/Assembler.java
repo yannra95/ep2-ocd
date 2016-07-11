@@ -1,8 +1,14 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -222,6 +228,28 @@ public class Assembler {
 		frame.setBounds(100, 100, 936, 631);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("Arquivo"); 
+		JMenuItem menuItem = new JMenuItem("Salvar Log...");
+		menuItem.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+			    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			    int option = chooser.showSaveDialog(null);
+			    
+			    if (option == JFileChooser.APPROVE_OPTION)
+			    {
+			        // do soemthing
+			    	String path = chooser.getSelectedFile().getPath();
+			    	System.out.println(path);
+			    	Log.save(path);
+			    }
+			}
+		});
+		menuFile.add(menuItem);
+		menuBar.add(menuFile);
+		frame.setJMenuBar(menuBar);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(354, 11, 556, 269);

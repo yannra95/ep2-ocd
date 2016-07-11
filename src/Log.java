@@ -50,7 +50,7 @@ public class Log {
 	}
 	
 	
-	public static void save(){
+	public static void save(String path){
 		
 		String identificadorLog = timeStampLog.replace(':', '-');
 		identificadorLog = identificadorLog.replace('/', '-');
@@ -58,7 +58,7 @@ public class Log {
 		BufferedWriter writer = null;
 		
 		try{
-			FileWriter f = new FileWriter("log("+ identificadorLog +").txt");
+			FileWriter f = new FileWriter(path +"\\log("+ identificadorLog +").txt");
 			writer = new BufferedWriter(f);
 			
 			for(String s: historico){
