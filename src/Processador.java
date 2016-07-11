@@ -16,8 +16,8 @@ public class Processador {
 	private Registrador ac;
 	private Registrador mem;
 	private Registrador[] registradores;
-	
-	//Flags em relação a zero
+
+	// Flags em relação a zero
 	private Flag fIgual;
 	private Flag fDiferente;
 	private Flag fMaiorOuIgual;
@@ -25,7 +25,7 @@ public class Processador {
 	private Flag fMenorOuIgual;
 	private Flag fMenor;
 	private Flag[] flags;
-	
+
 	public Memoria memoria;
 	public String palavraControle;
 	private UC uc;
@@ -34,7 +34,7 @@ public class Processador {
 	private boolean[] barramentoDados;
 
 	public Processador(Assembler assembler) {
-		
+
 		this.assembler = assembler;
 
 		// entrada saida
@@ -65,17 +65,16 @@ public class Processador {
 		this.mem = new Registrador("", 18, 19);
 		this.registradores = new Registrador[] { pc, mar, mbr, ir, ax, bx, cx,
 				dx, ir, ula, x, ac, mem };
-		
-		
+
 		this.fIgual = new Flag(false, "igual a zero");
 		this.fDiferente = new Flag(false, "diferente de zero");
 		this.fMaiorOuIgual = new Flag(false, "maior ou igual a zero");
 		this.fMaior = new Flag(false, "maior do que zero");
 		this.fMenorOuIgual = new Flag(false, "menor ou igual a zero");
 		this.fMenor = new Flag(false, "menor do que zero");
-		this.flags = new Flag[] { fIgual, fDiferente, fMaiorOuIgual, 
-			        fMaior, fMenorOuIgual, fMenor };
-		
+		this.flags = new Flag[] { fIgual, fDiferente, fMaiorOuIgual, fMaior,
+				fMenorOuIgual, fMenor };
+
 		this.memoria = new Memoria(assembler);
 		this.palavraControle = "";
 
@@ -89,51 +88,52 @@ public class Processador {
 		cicloBusca();
 
 	}
-/*portas			   endereço		ula		r/w	ind
- *00000000000000000000 00000000 	000 	0 	0
- *0					19 20	 27		28 30	31  32
- */
+
+	/*
+	 * portas endereço ula r/w ind00000000000000000000 00000000 000 0 00 19 20
+	 * 27 28 30 31 32
+	 */
 	public void interpretaPalavra() {
-		
+
 		abrePortas();
-		
-		//Se a porta da de entrada da memoria estiver aberta
-		if(registradores[12].isEntradaAberta()){
-			//Se for pra ler
-			if(palavraControle.charAt(31) == '1'){
-				//Coloca na memoria o endereço q deve ocorrer a busca 
-				registradores[12].setConteudo(registradores[0].getConteudo());
+
+		// Se a porta da de entrada da memoria estiver aberta
+		if (registradores[12].isEntradaAberta()) {
+			// Se for pra ler
+			if (palavraControle.charAt(31) == '1') {
+				// Coloca na memoria o endereço q deve ocorrer a busca
+				registradores[12].setConteudo(memoria.get(Integer.parseInt(registradores[1].getConteudo())));
 			}
-			//Se for pra escrever
-			else{
-				
+			// Se for pra escrever
+			else {
+
 			}
-		}
-		
-		copyReg2Reg();
-		
-		//Se a porta de saida da memoria estiver aberta
-		if (registradores[12].isSaidaAberta()) {System.out.println("teste");
-			//Se for pra ler
-			if(palavraControle.charAt(31) == '1'){
-				//Coloca no MBR o que a memoria retornar
-				registradores[2].setConteudo(memoria.get(registradores[12].getConteudo()));
-			}
-			//Se for pra escrever
-			else{
-				
-			}			
-		}
-		
-		
-		// Se as portas da ULA nï¿½o tiverem abertas, operaï¿½ï¿½o envolve
-		// apenas transporte de dados
-		if (!registradores[9].isEntradaAberta()) {
-			
 		} else {
 
+			// Se a porta de saida da memoria estiver aberta
+			if (registradores[12].isSaidaAberta()) {
+				// Se for pra ler
+				if (palavraControle.charAt(31) == '1') {
+					// Coloca no MBR o que a memoria retornar
+					registradores[2].setConteudo(registradores[12]
+							.getConteudo());
+				}
+				// Se for pra escrever
+				else {
+
+				}
+			}else{
+				// Se as portas da ULA nï¿½o tiverem abertas, operaï¿½ï¿½o envolve
+				// apenas transporte de dados
+				if (!registradores[9].isEntradaAberta()) {
+					copyReg2Reg();
+				} else {
+
+				}
+			}
 		}
-		
+
+
 		fechaPortas();
 	}
 
@@ -145,9 +145,9 @@ public class Processador {
 		for (int i = 0; i < registradores.length; i++)
 			if (registradores[i].isSaidaAberta())
 				regOut = registradores[i].getConteudo();
-		
+
 		for (int i = 0; i < registradores.length; i++) {
-			if (registradores[i].isEntradaAberta()){
+			if (registradores[i].isEntradaAberta()) {
 				registradores[i].setConteudo(regOut);
 			}
 		}
@@ -158,13 +158,13 @@ public class Processador {
 		for (int i = 0; i < barramentoDados.length; i++) {
 			if (portas.charAt(i) == '1') {
 				for (int j = 0; j < registradores.length; j++) {
-					
-//					System.out.println("checkout: "+i+"/"+registradores[j].getPortaSaida());
-					
-					if (registradores[j].getPortaEntrada() == i){
+
+					// System.out.println("checkout: "+i+"/"+registradores[j].getPortaSaida());
+
+					if (registradores[j].getPortaEntrada() == i) {
 						registradores[j].setEntradaAberta(true);
 					}
-					if (registradores[j].getPortaSaida() == i){
+					if (registradores[j].getPortaSaida() == i) {
 						registradores[j].setSaidaAberta(true);
 					}
 				}
@@ -188,33 +188,34 @@ public class Processador {
 	 */
 	public void cicloBusca() {
 
-		/*portas			   endereço		ula		r/w	ind
-		 *00000000000000000000 00000000 	000 	0 	0
-		 *0					19 20	 27		28 30	31  32
+		/*
+		 * portas endereço ula r/w ind00000000000000000000 00000000 000 0 00 19
+		 * 20 27 28 30 31 32
 		 */
-		
+
 		// MAR <- PC 1,2
-		palavraControle = "01100000000000000000 00000000 000 0 0";
+		palavraControle = "011000000000000000000000000000000";
 		interpretaPalavra();
 
 		// Memoria <- MAR 18
-		palavraControle = "00000000000000000010 0 00000000 00 1 0";
+		palavraControle = "000000000000000000100000000000010";
 		interpretaPalavra();
-		
-		System.out.println("MBR: "+registradores[2].getConteudo());
 
 		// MBR <- Memoria 4, 19
-		palavraControle = "00010000000000000001 00000000 000 1 0";
+		palavraControle = "000100000000000000010000000000010";
+		interpretaPalavra();
 
+		System.out.println("MBR: " + registradores[2].getConteudo());
+		
 		// IR <- MBR 4,13
 		palavraControle = "00001000000001000000 00000000 000 0 0";
-		
+
 		// ULA (com inc) <- PC 1, 15
 		palavraControle = "01000000000000010000 00000000 100 0 0";
-		
-		//PC <- AC 0, 17
+
+		// PC <- AC 0, 17
 		palavraControle = "10000000000000000100 00000000 000 0 0";
-		
+
 	}
 
 	public void cicloIndirecao() {
@@ -364,6 +365,5 @@ public class Processador {
 	public void setAssembler(Assembler assembler) {
 		this.assembler = assembler;
 	}
-	
-	
+
 }
