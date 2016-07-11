@@ -133,9 +133,14 @@ public class Processador {
 	public void copyReg2Reg() {
 		String regOut = null;
 		for (int i = 0; i < registradores.length; i++)
-			if (registradores[i].isSaidaAberta())
-				regOut = registradores[i].getConteudo();
-
+			//Exceção: se for o registrador AC
+			if(i == 11){System.out.println("oi");
+				if (registradores[i].isEntradaAberta())
+					regOut = registradores[i].getConteudo();
+			}else{
+				if (registradores[i].isSaidaAberta())
+					regOut = registradores[i].getConteudo();
+			}
 		for (int i = 0; i < registradores.length; i++) {
 			if (registradores[i].isEntradaAberta()) {
 				registradores[i].setConteudo(regOut);
@@ -148,8 +153,6 @@ public class Processador {
 		for (int i = 0; i < barramentoDados.length; i++) {
 			if (portas.charAt(i) == '1') {
 				for (int j = 0; j < registradores.length; j++) {
-
-					// System.out.println("checkout: "+i+"/"+registradores[j].getPortaSaida());
 
 					if (registradores[j].getPortaEntrada() == i) {
 						registradores[j].setEntradaAberta(true);
@@ -204,9 +207,6 @@ public class Processador {
 		Log.addTo("MBR <- Memoria 4, 19: "+ palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
-
-		System.out.println("MBR: " + registradores[2].getConteudo());
-
 		
 		// IR <- MBR 4,13
 		palavraControle = "000010000000010000000000000000000";
@@ -218,10 +218,16 @@ public class Processador {
 		palavraControle = "010000000000000010000000000010100";
 		Log.addTo("X (com inc) <- PC 1, 16: "+ palavraControle);
 		interpretaPalavra();
+<<<<<<< HEAD
 		assembler.atualizaTabela();
 		System.out.println("AC: " + registradores[11].getConteudo());
+=======
+		
+>>>>>>> origin/master
 		// PC <- AC 0, 17
-		palavraControle = "10000000000000000100 00000000 000 0 0";
+		palavraControle = "100000000000000001000000000000000";
+		interpretaPalavra();
+		System.out.println("PC: " + registradores[0].getConteudo());
 
 	}
 

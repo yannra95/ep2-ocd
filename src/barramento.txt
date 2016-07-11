@@ -9,5 +9,5 @@ DX	11		12
 IR	13		14
 ULA	15		null
 X	16		null
-AC	null	17
+AC	17		null //AC na verdade, só teria uma porta de saida, mas para facilitar o codigo, as portas foram trocadas
 MEM	18		19
