@@ -1,8 +1,14 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -12,6 +18,8 @@ public class Assembler {
 
 	private JFrame frame;
 	private JScrollPane scrollPane;
+	private JScrollPane scrollPanePortas;
+	private JScrollPane scrollPaneLog;
 	private JTable table;
 	private DefaultTableModel model;
 	private DefaultTableModel model2;
@@ -220,10 +228,41 @@ public class Assembler {
 		frame.setBounds(100, 100, 936, 631);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("Arquivo"); 
+		JMenuItem menuItem = new JMenuItem("Salvar Log...");
+		menuItem.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+			    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			    int option = chooser.showSaveDialog(null);
+			    
+			    if (option == JFileChooser.APPROVE_OPTION)
+			    {
+			        // do soemthing
+			    	String path = chooser.getSelectedFile().getPath();
+			    	System.out.println(path);
+			    	Log.save(path);
+			    }
+			}
+		});
+		menuFile.add(menuItem);
+		menuBar.add(menuFile);
+		frame.setJMenuBar(menuBar);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(354, 11, 556, 269);
 		frame.getContentPane().add(scrollPane);
+		
+		scrollPanePortas = new JScrollPane();
+		scrollPanePortas.setBounds(354, 300, 556, 269);
+		frame.getContentPane().add(scrollPanePortas);
+		
+		scrollPaneLog = new JScrollPane();
+		scrollPaneLog.setBounds(10, 300, 334, 269);
+		frame.getContentPane().add(scrollPaneLog);
+		
 
 		String[] columnNames = { "PC", "MAR", "MBR", "IR", "ax", "bx", "cx",
 				"dx", "==0", "<>0", ">=0", ">0", "<=0", "<0" };
@@ -232,12 +271,11 @@ public class Assembler {
 		table = new JTable(model);
 		model.setColumnIdentifiers(columnNames);
 		table.setEnabled(false);
-		scrollPane.setViewportView(table);
-		
-		
+		scrollPane.getViewport().setView(table);
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(354, 300, 556, 269);
 		frame.getContentPane().add(scrollPane);
+		
+		
 
 		String[] columnNamesPortas = { "0", "1", "2", "3", "4", "5", "6",
 				"7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19" };
@@ -246,15 +284,19 @@ public class Assembler {
 		table2 = new JTable(model2);
 		model2.setColumnIdentifiers(columnNamesPortas);
 		table2.setEnabled(false);
-		scrollPane.setViewportView(table2);
+		scrollPanePortas.getViewport().setView(table2);
+		scrollPanePortas = new JScrollPane();
+		frame.getContentPane().add(scrollPanePortas);
 		
 
 		JTextArea textArea = new JTextArea();
 		
 		textAreaLog = new JTextArea();
 		textAreaLog.setEditable(false);
-		textAreaLog.setBounds(10, 300, 334, 269);
-		frame.getContentPane().add(textAreaLog);
+		scrollPaneLog.getViewport().setView(textAreaLog);
+		scrollPaneLog = new JScrollPane();
+		frame.getContentPane().add(scrollPaneLog);
+		
 
 		// O que acontece quando "F9" � apertado
 		textArea.addKeyListener(new KeyAdapter() {
