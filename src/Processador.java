@@ -36,21 +36,6 @@ public class Processador {
 	public Processador(Assembler assembler) {
 
 		this.assembler = assembler;
-
-		// entrada saida
-		// PC 0 1
-		// MAR 2 null
-		// MBR 3 4
-		// AX 5 6
-		// BX 7 8
-		// CX 9 10
-		// DX 11 12
-		// IR 13 14
-		// ULA 15 null
-		// X 16 null
-		// AC null 17
-		// MEM 18 19
-
 		this.pc = new Registrador("0", 0, 1);
 		this.mar = new Registrador("", 2);
 		this.mbr = new Registrador("", 3, 4);
@@ -58,7 +43,7 @@ public class Processador {
 		this.bx = new Registrador("", 7, 8);
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
-		this.ir = new Registrador("", "", "", 13, 14);
+		this.ir = new Registrador("", 13, 14);
 		this.ula = new Registrador("", 15);
 		this.x = new Registrador("", 16);
 		this.ac = new Registrador("", 17);
@@ -214,26 +199,22 @@ public class Processador {
 		Log.addTo("MBR <- Memoria 4, 19: "+ palavraControle);
 		assembler.atualizaTabela();
 		interpretaPalavra();
-
-		System.out.println("MBR: " + registradores[2].getConteudo());
 		
 		// IR <- MBR 4,13
 		palavraControle = "00001000000001000000 00000000 000 0 0";
+		interpretaPalavra();
 
 		// ULA (com inc) <- PC 1, 15
 		palavraControle = "01000000000000010000 00000000 100 0 0";
-
+		interpretaPalavra();
+		System.out.println("ULA: " + registradores[9].getConteudo());
 		// PC <- AC 0, 17
 		palavraControle = "10000000000000000100 00000000 000 0 0";
 
 	}
 
-	public void cicloIndirecao() {
-
-	}
-
 	public void cicloExecucao() {
-
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
 	}
 
 	/**
