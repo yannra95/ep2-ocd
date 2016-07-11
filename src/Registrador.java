@@ -15,6 +15,22 @@ public class Registrador {
 		this.portaSaida = portaSaida;
 		this.isSaidaAberta = false;
 	}
+	/**
+	 * Se o registrador for o IR. 0 é a operação, 1 é o operando1, 2 é o operando 2
+	 * @param conteudo
+	 * @param portaEntrada
+	 * @param portaSaida
+	 */
+	public Registrador(String operacao, String operando1, String operando2, int portaEntrada, int portaSaida) {
+		super();
+		this.conteudoIR[0] = operacao;
+		this.conteudoIR[1] = operando1;
+		this.conteudoIR[2] = operando2;
+		this.portaEntrada = portaEntrada;
+		this.isEntradaAberta = false;
+		this.portaSaida = portaSaida;
+		this.isSaidaAberta = false;
+	}
 	
 	//Se tiver apenas uma porta, por convençao, usaremos a de entrada
 	public Registrador(String conteudo, int portaEntrada) {

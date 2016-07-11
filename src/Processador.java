@@ -73,6 +73,7 @@ public class Processador {
 	public void cicloInstrucao() {
 
 		cicloBusca();
+		cicloExecucao();
 
 	}
 
@@ -89,11 +90,12 @@ public class Processador {
 			// Se for pra ler
 			if (palavraControle.charAt(31) == '1') {
 				// Coloca na memoria o endereço q deve ocorrer a busca
-				registradores[12].setConteudo(memoria.get(Integer.parseInt(registradores[1].getConteudo())));
+				registradores[12].setConteudo(memoria.get(Integer
+						.parseInt(registradores[1].getConteudo())));
 			}
 			// Se for pra escrever
 			else {
-
+					
 			}
 		} else {
 
@@ -109,20 +111,22 @@ public class Processador {
 				else {
 
 				}
-			}else{		
-				
+			} else {
+
 				copyReg2Reg();
 
-				// Se a palavra tiver sinal pra ula
+				// Se a palavra tiver sinal pra ULA
 				if (!palavraControle.substring(28, 31).equals("000")) {
-					//Coloca no AC o resultado
-					registradores[11].setConteudo(ula.calcula(palavraControle.substring(28, 31), registradores[10].getConteudo() , registradores[9].getConteudo()));
+					// Coloca no AC o resultado
+					registradores[11].setConteudo(ula.calcula(
+							palavraControle.substring(28, 31),
+							registradores[10].getConteudo(),
+							registradores[9].getConteudo()));
 				} else {
-					
+
 				}
 			}
 		}
-
 
 		fechaPortas();
 	}
@@ -133,11 +137,12 @@ public class Processador {
 	public void copyReg2Reg() {
 		String regOut = null;
 		for (int i = 0; i < registradores.length; i++)
-			//Exceção: se for o registrador AC
-			if(i == 11){System.out.println("oi");
+			// Exceção: se for o registrador AC
+			if (i == 11) {
+				System.out.println("oi");
 				if (registradores[i].isEntradaAberta())
 					regOut = registradores[i].getConteudo();
-			}else{
+			} else {
 				if (registradores[i].isSaidaAberta())
 					regOut = registradores[i].getConteudo();
 			}
@@ -178,8 +183,7 @@ public class Processador {
 	}
 
 	/**
-	 * Contrucaoo manual da palavra de controle representa a
-	 * interpretacao da UC
+	 * Contrucaoo manual da palavra de controle representa a interpretacao da UC
 	 */
 	public void cicloBusca() {
 
@@ -189,34 +193,34 @@ public class Processador {
 		 */
 
 		Log.addTo("Ciclo de Busca");
-		
+
 		// MAR <- PC 1,2
 		palavraControle = "011000000000000000000000000000000";
-		Log.addTo("MAR <- PC 1,2: "+ palavraControle);
+		Log.addTo("MAR <- PC 1,2: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
 
 		// Memoria <- MAR 18
 		palavraControle = "000000000000000000100000000000010";
-		Log.addTo("Memoria <- MAR 18: "+ palavraControle);
+		Log.addTo("Memoria <- MAR 18: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
 
 		// MBR <- Memoria 4, 19
 		palavraControle = "000100000000000000010000000000010";
-		Log.addTo("MBR <- Memoria 4, 19: "+ palavraControle);
+		Log.addTo("MBR <- Memoria 4, 19: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
-		
+
 		// IR <- MBR 4,13
 		palavraControle = "000010000000010000000000000000000";
-		Log.addTo("IR <- MBR 4,13: "+ palavraControle);
+		Log.addTo("IR <- MBR 4,13: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
 
 		// X (com inc) <- PC 1, 16
 		palavraControle = "010000000000000010000000000010100";
-		Log.addTo("X (com inc) <- PC 1, 16: "+ palavraControle);
+		Log.addTo("X (com inc) <- PC 1, 16: " + palavraControle);
 		interpretaPalavra();
 		assembler.atualizaTabela();
 		System.out.println("AC: " + registradores[11].getConteudo());
@@ -228,7 +232,7 @@ public class Processador {
 	}
 
 	public void cicloExecucao() {
-		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
+		ArrayList<Palavra> palavras = uc.lerInstrucao(registradores[0].getConteudoIR());
 	}
 
 	/**
