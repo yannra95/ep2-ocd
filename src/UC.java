@@ -19,7 +19,9 @@ public class UC {
 	// Esse método retorna as palavras de controle envolvidas na linha de código digitada
 	// Deve ser executado após a execução completa da linha de código anterior 
 	public void lerInstrucao(Memoria memoria, int endereco) {
-	 
+		//Para log
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>(3);
+		
 		String opcode = memoria.get(endereco); // instrução a ser lida
 		//Para log
 		
@@ -29,7 +31,8 @@ public class UC {
 		
 		if (ins == "0100") {
 		// MOV 
-	
+			palavras.add(palavraBase());
+			palavras.add(palavraBase());
 		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){  
 		//ADD - SUB - MUL - DIV
 		} else if (ins == "1001"){
@@ -39,28 +42,18 @@ public class UC {
 		}
 		
 
-		geraPalavra(ins, operando1, operando2);
+		palavraBase(ins, operando1, operando2);
 		
-		String linhasControle;
-		String condJump;
-		String comandoUla;
-		String readWrite;
-		String indirecao;
 	}	
-		//Para log
 	
+	private Palavra palavraBase() {
+		
+		return null;
+	}
 	
-	
-	/** 
-	20 bits para linhas de controle
-	1 bit pra condição jump e mais 8 bits pro endereço pra onde pular
-	2 bits ou menos pro comando pra ula
-	1 bit pra dizer para a memoria se é read(1) ou write(0)
-	1 bit pra dizer se é indireção
-	00000000000000000000 0 00000000 00 0 0*/
-	
-	
-	public ArrayList<Palavra> geraPalavra(String instrucao, String operando1, String operando2) {
+	public ArrayList<Palavra> palavraBase(String instrucao, String operando1, String operando2) {
+		
+		String linhasControle, endJump, comandoUla, readWrite, indirecao;
 		
 		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
 		
@@ -71,22 +64,17 @@ public class UC {
 		}
 		if (operando2.charAt(1) == '1') { // op2 indireção 
 			op2Ind = true;
-		}
+		}		
 
-//		palavraBase();
-//		palavraULA();
-//		palavraJump();
-//		palavraMOV();
-//		
-//		palavras.add();
-
-		geraSinal(recuperaEntrada(operando1, op1Ind)); // pega sinais OP1 
-		geraSinal(recuperaSaida(operando2,op2Ind)); // pega sinais OP2
+		//geraSinal(recuperaEntrada(operando1, op1Ind)); // pega sinais OP1 
+		//geraSinal(recuperaSaida(operando2,op2Ind)); // pega sinais OP2
 		if(op1Ind){
-			
+			indLeitura(operando1, true); // palavr
+			indEscrita(operando1);
 		}
 		if(op2Ind){
-			// MBR <- MAR
+			indLeitura(operando2, false);
+			indEscrita(operando2);
 		}
 
 		
@@ -96,19 +84,51 @@ public class UC {
 		return palavras;
 	}
 	
+	/** 
+	20 bits para linhas de controle
+	8 bits pro endereço pra onde pular
+	3 bits pro comando pra ula
+	1 bit pra dizer para a memoria se é read(1) ou write(0)
+	1 bit pra dizer se é indireção
+	00000000000000000000 00000000 000 0 0*/
+	
+	// Indireção na leitura
+	public Palavra indLeitura(String operando, boolean primeiroOp) { // determina o operando para saber se é entrada ou saída
+		ArrayList<Integer> portas = new ArrayList<Integer>();
+		
+		portas.add(retornaPortaSaida("MAR")); // MBR <- MAR
+		portas.add(retornaPortaEntrada("MBR"));
+		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "1", "1"); // read
+		
+		return palavra;
+	}
+
+	// Indireção na escrita
+	public Palavra indEscrita(String operando) { // determina o operando para saber se é entrada ou saída
+		ArrayList<Integer> portas = new ArrayList<Integer>();
+		
+		portas.addAll((recuperaEntrada(operando, false))); // Registrador <- MBR
+		portas.add(retornaPortaSaida("MBR"));
+		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "1"); // write
+		
+		return palavra;
+	}
+	
+	private void palavraJump() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void palavraMOV() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void palavraULA() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public Palavra geraIndirecao(String operando, boolean primeiroOp) {
-		
-		Palavra indirecao = null;
-		
-		
-		
-		return  indirecao;
-	}
 	
 	public String geraSinal(ArrayList<Integer>portas) {
 		String sinal = "";
