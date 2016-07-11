@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class UC {
+	
 	String operando1;
 	String operando2;
 	boolean op1Reg;
@@ -52,8 +53,7 @@ public class UC {
 		
 		//ADD - SUB - MUL - DIV
 		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){ 
-			palavras.addAll(palavraBase(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // indireções
-			palavras.addAll(palavraULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg, ins)); // realiza a operação da ULA
+			palavras.addAll(palavraULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // realiza a operação da ULA
 			
 		// JUMP
 		} else if (ins == "1001"){
@@ -71,7 +71,7 @@ public class UC {
 			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
 		//String linhasControle, endJump, comandoUla, readWrite, indirecao;
 		
-		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>(); 
 		
 		if (op1Ind){ // indireção registrador ou memória
 			palavras.add(indLeitura(operando1, op1Reg));
@@ -80,6 +80,27 @@ public class UC {
 		if(op2Ind){ // indireção registrador ou memória
 			palavras.add(indLeitura(operando2, op2Reg));
 			palavras.add(indEscrita(operando2));
+		}
+		
+		//Para log
+		return palavras;
+	}
+	
+	public ArrayList<Palavra> palavraBaseULA(String instrucao, String operando1, String operando2, 
+			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg, String opUla) {
+		//String linhasControle, endJump, comandoUla, readWrite, indirecao;
+		
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>(); 
+		
+		if (op1Ind){ // indireção registrador ou memória
+			palavras.add(indLeitura(operando1, op1Reg));
+			palavras.add(indEscrita(operando1));
+			indEscritaUla(operando1, true); // é o primeiro operando, vai para x
+		} 	
+		if(op2Ind){ // indireção registrador ou memória
+			palavras.add(indLeitura(operando2, op2Reg));
+			palavras.add(indEscrita(operando2));
+			indEscritaUla(operando2, false); // não é o primeiro operando, vai para a ula
 		}
 		
 		//Para log
@@ -96,6 +117,7 @@ public class UC {
 			portas.add(retornaPortaSaida("MEM"));
 		}
 		portas.add(retornaPortaEntrada("MAR"));
+		
 		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "1", "1"); // read
 		
 		return palavra;
@@ -107,10 +129,12 @@ public class UC {
 		
 		portas.add(retornaPortaSaida("MEM"));
 		portas.add(retornaPortaEntrada("MBR"));
+		
 		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "1"); // write
 		
 		return palavra;
 	}
+
 	// Leitura direta
 	public Palavra dirLeitura(String operando, boolean reg, String opUla) {
 		ArrayList<Integer> portas = new ArrayList<Integer>();
@@ -140,19 +164,55 @@ public class UC {
 		return palavra;
 	}
 	
+	public ArrayList<Palavra> indEscritaUla(String operando, boolean leftOperand) { // determina o operando para saber se vai para x ou ula
+		ArrayList<Integer> portas = new ArrayList<Integer>();
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
+		
+		portas.add(retornaPortaSaida("MBR"));
+		if (leftOperand) {
+			portas.add(retornaPortaEntrada("X"));
+			
+		} else {
+			portas.add(retornaPortaEntrada("ULA"));
+		}
+		
+		Palavra palavra1 = new Palavra(geraSinal(portas),"00000000", "000", "0", "1"); // write
+		palavras.add(palavra1);
+		
+		return palavras;
+	}
+	
+	public ArrayList<Palavra> indEscritaAC(String operando, boolean leftOperand) { // determina o operando para saber se vai para x ou ula
+		ArrayList<Integer> portas = new ArrayList<Integer>();
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
+		
+		portas.add(retornaPortaSaida("MBR"));
+		if (leftOperand) {
+			portas.add(retornaPortaEntrada("X"));
+		} else {
+			portas.add(retornaPortaEntrada("ULA"));
+		}
+		
+		Palavra palavra1 = new Palavra(geraSinal(portas),"00000000", "000", "0", "1"); // write
+		palavras.add(palavra1);
+		
+		return palavras;
+	}
+	
+	
 	public ArrayList<Palavra> palavraMOV(String ins, String operando1, String operando2, 
 			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
 		ArrayList<Palavra> palavras = new ArrayList<Palavra>(2);
 		
 		if (op1Ind == false){
-			palavras.add(dirLeitura(operando1, op1Reg, ins));	
+			palavras.add(dirLeitura(operando1, op1Reg, null));	
 		} 	
 		if(op2Ind == false){ 
-			palavras.add(dirLeitura(operando2, op2Reg, ins));	
+			palavras.add(dirLeitura(operando2, op2Reg, null));	
 		}
 		return palavras;
 	}
-	
+
 
 	public ArrayList<Palavra> palavraULA(String ins, String operando1, String operando2, 
 			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
@@ -175,19 +235,27 @@ public class UC {
 		}
 		
 		if (op1Ind == false){
-			palavras.add(dirLeitura(operando1, op1Reg,opUla));	
-		} 	
+			palavras.add(dirLeitura(operando1, op1Reg, opUla));	
+		} else {
+			boolean success = palavras.addAll(palavraBaseULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg, opUla));
+			if (success) {
+				
+			}	
+		}
 		if(op2Ind == false){ 
 			palavras.add(dirLeitura(operando2, op2Reg, opUla));	
+		} else {
+			boolean success = palavras.addAll(palavraBaseULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg, opUla));
+			if (success) {
+				
+			}	
 		}
 		return palavras;
 	}
 
 	public void palavraJump() {
-		// TODO Auto-generated method stub
-		
+		// TODO
 	}
-
 	
 	public String geraSinal(ArrayList<Integer>portas) {
 		String sinal = "";
