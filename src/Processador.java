@@ -11,7 +11,7 @@ public class Processador {
 	private Registrador cx;
 	private Registrador dx;
 	private Registrador ir;
-	private Registrador ula;
+	private Registrador ulaReg;
 	private Registrador x;
 	private Registrador ac;
 	private Registrador mem;
@@ -29,6 +29,7 @@ public class Processador {
 	public Memoria memoria;
 	public String palavraControle;
 	private UC uc;
+	private ULA ula;
 	private Assembler assembler;
 
 	private boolean[] barramentoDados;
@@ -44,12 +45,12 @@ public class Processador {
 		this.cx = new Registrador("", 9, 10);
 		this.dx = new Registrador("", 11, 12);
 		this.ir = new Registrador("", 13, 14);
-		this.ula = new Registrador("", 15);
+		this.ulaReg = new Registrador("", 15);
 		this.x = new Registrador("", 16);
 		this.ac = new Registrador("", 17);
 		this.mem = new Registrador("", 18, 19);
 		this.registradores = new Registrador[] { pc, mar, mbr, ir, ax, bx, cx,
-				dx, ir, ula, x, ac, mem };
+				dx, ir, ulaReg, x, ac, mem };
 
 		this.fIgual = new Flag(false, "igual a zero");
 		this.fDiferente = new Flag(false, "diferente de zero");
@@ -61,6 +62,7 @@ public class Processador {
 				fMenorOuIgual, fMenor };
 
 		this.memoria = new Memoria(assembler);
+		this.ula = new ULA();
 		this.palavraControle = "";
 
 		// Vetor de boolean que representa as portas e seus estados (aberta ou
@@ -107,13 +109,16 @@ public class Processador {
 				else {
 
 				}
-			}else{
-				// Se as portas da ULA n�o tiverem abertas, opera��o envolve
-				// apenas transporte de dados
-				if (!registradores[9].isEntradaAberta()) {
-					copyReg2Reg();
-				} else {
+			}else{		
+				
+				copyReg2Reg();
 
+				// Se a palavra tiver sinal pra ula
+				if (!palavraControle.substring(28, 31).equals("000")) {
+					//Coloca no AC o resultado
+					registradores[11].setConteudo(ula.calcula(palavraControle.substring(28, 31), registradores[10].getConteudo() , registradores[9].getConteudo()));
+				} else {
+					
 				}
 			}
 		}
@@ -201,13 +206,13 @@ public class Processador {
 		interpretaPalavra();
 		
 		// IR <- MBR 4,13
-		palavraControle = "00001000000001000000 00000000 000 0 0";
+		palavraControle = "000010000000010000000000000000000";
 		interpretaPalavra();
 
-		// ULA (com inc) <- PC 1, 15
-		palavraControle = "01000000000000010000 00000000 100 0 0";
+		// X (com inc) <- PC 1, 16
+		palavraControle = "010000000000000010000000000010100";
 		interpretaPalavra();
-		System.out.println("ULA: " + registradores[9].getConteudo());
+		System.out.println("AC: " + registradores[11].getConteudo());
 		// PC <- AC 0, 17
 		palavraControle = "10000000000000000100 00000000 000 0 0";
 
