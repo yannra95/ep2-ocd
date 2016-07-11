@@ -190,20 +190,23 @@ public class Processador {
 		// MAR <- PC 1,2
 		palavraControle = "011000000000000000000000000000000";
 		Log.addTo("MAR <- PC 1,2: "+ palavraControle);
-		assembler.atualizaTabela();
 		interpretaPalavra();
+		assembler.atualizaTabela();
 
 		// Memoria <- MAR 18
 		palavraControle = "000000000000000000100000000000010";
 		Log.addTo("Memoria <- MAR 18: "+ palavraControle);
-		assembler.atualizaTabela();
 		interpretaPalavra();
+		assembler.atualizaTabela();
 
 		// MBR <- Memoria 4, 19
 		palavraControle = "000100000000000000010000000000010";
 		Log.addTo("MBR <- Memoria 4, 19: "+ palavraControle);
-		assembler.atualizaTabela();
 		interpretaPalavra();
+		assembler.atualizaTabela();
+
+		System.out.println("MBR: " + registradores[2].getConteudo());
+
 		
 		// IR <- MBR 4,13
 		palavraControle = "000010000000010000000000000000000";

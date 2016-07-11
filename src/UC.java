@@ -1,7 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class UC {
-	String operacao;
 	String operando1;
 	String operando2;
 	boolean op1Reg;
@@ -11,19 +11,24 @@ public class UC {
 	String palavraControle;
 	String[] palavra;
 	private Assembler assembler;
+	private Processador processador;
+	
 	
 	public UC(Assembler assembler){
 		this.assembler = assembler;
 	}
 	
+	
+	String[] operacao = processador.getIr().getConteudoIR();
 	// Esse método retorna as palavras de controle envolvidas na linha de código digitada
 	// Deve ser executado após a execução completa da linha de código anterior 
-	public void lerInstrucao(Memoria memoria, int endereco) {
-		//Para log
-		ArrayList<Palavra> palavras = new ArrayList<Palavra>(3);
+	public ArrayList<Palavra> lerInstrucao(String[] operacao) {
 		
-		String opcode = memoria.get(endereco); // instrução a ser lida
-		//Para log
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>(3);
+	
+		String ins = operacao[0];
+		String operando1 = operacao[1];
+		String operando2 = operacao[2];
 		
 		boolean op1Ind = false, op2Ind = false, op1Reg = false, op2Reg = false;
 		
@@ -40,23 +45,26 @@ public class UC {
 			op2Ind = true;
 		}
 		
-		String ins = opcode.substring(0,4);
-		String operando1 = opcode.substring(4,18);
-		String operando2 = opcode.substring(18);
-		
 		if (ins == "0100") {
 		// MOV 
 			palavras.addAll(palavraBase(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // indireções
-			palavras.addAll(palavraMOV(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg));
-		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){  
-		//ADD - SUB - MUL - DIV
-		} else if (ins == "1001"){
-		// JUMP 
-		} else {
-		// OUTROS JUMPS
-		}
-
+			palavras.addAll(palavraMOV(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // realiza o mov
 		
+		//ADD - SUB - MUL - DIV
+		} else if (ins == "0101" || ins == "0110" || ins == "0111" || ins == "1000"){ 
+			palavras.addAll(palavraBase(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg)); // indireções
+			palavras.addAll(palavraULA(ins,operando1, operando2, op1Ind, op2Ind, op1Reg, op2Reg, ins)); // realiza a operação da ULA
+			
+		// JUMP
+		} else if (ins == "1001"){
+			
+		// OUTROS JUMPS 
+		} else {
+		
+		}
+		
+		//Para log
+		return palavras;
 	}	
 
 	public ArrayList<Palavra> palavraBase(String instrucao, String operando1, String operando2, 
@@ -77,14 +85,6 @@ public class UC {
 		//Para log
 		return palavras;
 	}
-	
-	/** 
-	20 bits para linhas de controle
-	8 bits pro endereço pra onde pular
-	3 bits pro comando pra ula
-	1 bit pra dizer para a memoria se é read(1) ou write(0)
-	1 bit pra dizer se é indireção
-	00000000000000000000 00000000 000 0 0*/
 	
 	// Indireção na leitura
 	public Palavra indLeitura(String operando, boolean reg) {
@@ -112,7 +112,7 @@ public class UC {
 		return palavra;
 	}
 	// Leitura direta
-	public Palavra dirLeitura(String operando, boolean reg) {
+	public Palavra dirLeitura(String operando, boolean reg, String opUla) {
 		ArrayList<Integer> portas = new ArrayList<Integer>();
 		
 		if (reg) {
@@ -120,10 +120,13 @@ public class UC {
 		} else {
 			portas.add(retornaPortaSaida("IR"));
 		}
-		portas.add(retornaPortaEntrada("MAR"));
-		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "1", "0"); // read
-		
-		return palavra;
+		if (opUla != null) {
+			Palavra palavra = new Palavra(geraSinal(portas),"00000000", opUla, "0", "0");
+			return palavra;
+		} else {
+			Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "0");
+			return palavra;
+		}		
 	}
 
 	// Escrita direta
@@ -132,25 +135,55 @@ public class UC {
 		
 		portas.add(retornaPortaSaida("MEM"));
 		portas.add(retornaPortaEntrada("MBR"));
-		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "0"); // write
+		Palavra palavra = new Palavra(geraSinal(portas),"00000000", "000", "0", "0");
 		
 		return palavra;
 	}
 	
-	private void palavraJump() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private ArrayList<Palavra> palavraMOV(String ins, String operando1, String operando2, 
+	public ArrayList<Palavra> palavraMOV(String ins, String operando1, String operando2, 
 			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>(2);
 		
+		if (op1Ind == false){
+			palavras.add(dirLeitura(operando1, op1Reg, ins));	
+		} 	
+		if(op2Ind == false){ 
+			palavras.add(dirLeitura(operando2, op2Reg, ins));	
+		}
+		return palavras;
+	}
+	
+
+	public ArrayList<Palavra> palavraULA(String ins, String operando1, String operando2, 
+			boolean op1Ind, boolean op2Ind, boolean op1Reg, boolean op2Reg) {
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>(2);
+		String opUla = "";
 		
+		switch(ins) {
+			case "0101":
+				opUla = "001";  
+				break;
+			case "0110":
+				opUla = "010";
+				break;
+			case "0111":
+				opUla = "011";
+				break;
+			case "1000":
+				opUla = "100";
+				break;
+		}
 		
-		return null;
+		if (op1Ind == false){
+			palavras.add(dirLeitura(operando1, op1Reg,opUla));	
+		} 	
+		if(op2Ind == false){ 
+			palavras.add(dirLeitura(operando2, op2Reg, opUla));	
+		}
+		return palavras;
 	}
 
-	private void palavraULA() {
+	public void palavraJump() {
 		// TODO Auto-generated method stub
 		
 	}
