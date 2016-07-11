@@ -89,9 +89,9 @@ public class Processador {
 		cicloBusca();
 
 	}
-/*portas			   jmp	endereço	ula	r/w	ind
- *00000000000000000000 0 	00000000 	00 	0 	0
- *0					19 20		  28	30	31	32
+/*portas			   endereço		ula		r/w	ind
+ *00000000000000000000 00000000 	000 	0 	0
+ *0					19 20	 27		28 30	31  32
  */
 	public void interpretaPalavra() {
 		
@@ -188,8 +188,13 @@ public class Processador {
 	 */
 	public void cicloBusca() {
 
+		/*portas			   endereço		ula		r/w	ind
+		 *00000000000000000000 00000000 	000 	0 	0
+		 *0					19 20	 27		28 30	31  32
+		 */
+		
 		// MAR <- PC 1,2
-		palavraControle = "01100000000000000000 0 00000000 00 0 0";
+		palavraControle = "01100000000000000000 00000000 000 0 0";
 		interpretaPalavra();
 
 		// Memoria <- MAR 18
@@ -199,10 +204,17 @@ public class Processador {
 		System.out.println("MBR: "+registradores[2].getConteudo());
 
 		// MBR <- Memoria 4, 19
-		palavraControle = "00010000000000000001 0 00000000 00 1 0";
+		palavraControle = "00010000000000000001 00000000 000 1 0";
 
 		// IR <- MBR 4,13
-		palavraControle = "00001000000001000000 0 00000000 00 1 0";
+		palavraControle = "00001000000001000000 00000000 000 0 0";
+		
+		// ULA (com inc) <- PC 1, 15
+		palavraControle = "01000000000000010000 00000000 100 0 0";
+		
+		//PC <- AC 0, 17
+		palavraControle = "10000000000000000100 00000000 000 0 0";
+		
 	}
 
 	public void cicloIndirecao() {
